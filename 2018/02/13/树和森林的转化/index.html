@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="树,树的森林的转化,森林," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="二叉树最多只有左右孩子两个指针域，方便进行操作，而一般的树和森林要是可以相应的转化为二叉树，也可以方便的进行操作。 树转化为二叉树树转化为二叉树的步骤  画线。 在所有兄弟节点之间加一条线。 删线。 所有的节点，只保留它和第一个孩子之间的连线。 旋转。 将整个树以根节点为轴，旋转一定的角度，让它看上去像二叉树。也就是重画一下，不改变结构。  例子：  森林转化为二叉树森岭就是很多树放在一起的。 将">
+<meta name="keywords" content="树,树的森林的转化,森林">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树，二叉树和森林的转化">
+<meta property="og:url" content="http://yoursite.com/2018/02/13/树和森林的转化/index.html">
+<meta property="og:site_name" content="忧漠的博客">
+<meta property="og:description" content="二叉树最多只有左右孩子两个指针域，方便进行操作，而一般的树和森林要是可以相应的转化为二叉树，也可以方便的进行操作。 树转化为二叉树树转化为二叉树的步骤  画线。 在所有兄弟节点之间加一条线。 删线。 所有的节点，只保留它和第一个孩子之间的连线。 旋转。 将整个树以根节点为轴，旋转一定的角度，让它看上去像二叉树。也就是重画一下，不改变结构。  例子：  森林转化为二叉树森岭就是很多树放在一起的。 将">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.blog.csdn.net/20130916192154203">
+<meta property="og:image" content="data:image/png;base64,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">
+<meta property="og:image" content="data:image/png;base64,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">
+<meta property="og:updated_time" content="2018-02-16T08:07:28.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="树，二叉树和森林的转化">
+<meta name="twitter:description" content="二叉树最多只有左右孩子两个指针域，方便进行操作，而一般的树和森林要是可以相应的转化为二叉树，也可以方便的进行操作。 树转化为二叉树树转化为二叉树的步骤  画线。 在所有兄弟节点之间加一条线。 删线。 所有的节点，只保留它和第一个孩子之间的连线。 旋转。 将整个树以根节点为轴，旋转一定的角度，让它看上去像二叉树。也就是重画一下，不改变结构。  例子：  森林转化为二叉树森岭就是很多树放在一起的。 将">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20130916192154203">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/13/树和森林的转化/"/>
+
+
+
+
+
+  <title>树，二叉树和森林的转化 | 忧漠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">忧漠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">总有一个舞台属于你</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/13/树和森林的转化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Youmo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/f3f80ee72999fa9f08eaf335bc8330eb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="忧漠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">树，二叉树和森林的转化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-13T13:27:43+08:00">
+                2018-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>二叉树最多只有左右孩子两个指针域，方便进行操作，而一般的树和森林要是可以相应的转化为二叉树，也可以方便的进行操作。</p>
+<h1 id="树转化为二叉树"><a href="#树转化为二叉树" class="headerlink" title="树转化为二叉树"></a>树转化为二叉树</h1><p>树转化为二叉树的步骤</p>
+<ol>
+<li>画线。 在所有兄弟节点之间加一条线。</li>
+<li>删线。 所有的节点，只保留它和第一个孩子之间的连线。</li>
+<li>旋转。 将整个树以根节点为轴，旋转一定的角度，让它看上去像二叉树。也就是重画一下，不改变结构。</li>
+</ol>
+<p>例子：</p>
+<p><img src="http://img.blog.csdn.net/20130916192154203" alt=""></p>
+<h1 id="森林转化为二叉树"><a href="#森林转化为二叉树" class="headerlink" title="森林转化为二叉树"></a>森林转化为二叉树</h1><p>森岭就是很多树放在一起的。</p>
+<p>将森岭转化为二叉树的步骤</p>
+<ol>
+<li>将各个树转化为二叉树。</li>
+<li>第一棵二叉树不变，将以后的二叉树，每一棵的根节点作为前一棵树根的右孩子。</li>
+</ol>
+<p>例子：</p>
+<p><img src="data:image/png;base64,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" alt=""></p>
+<h1 id="二叉树转化为树"><a href="#二叉树转化为树" class="headerlink" title="二叉树转化为树"></a>二叉树转化为树</h1><p>恢复的步骤：</p>
+<ol>
+<li>画线。若某个节点的左孩子节点存在（不是某一个，是每个有左孩子的节点），则将该左孩子的右孩子节点、该左孩子的右孩子的右孩子节点…….都作为该节点的孩子，与该节点连接起来。</li>
+<li>删线。删除原二叉树中与这些右孩子间的连线。</li>
+</ol>
+<p>例子：</p>
+<p><img src="data:image/png;base64,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" alt=""></p>
+<h1 id="二叉树转化为森林"><a href="#二叉树转化为森林" class="headerlink" title="二叉树转化为森林"></a>二叉树转化为森林</h1><p>首先判断，这颗二叉树是否能转化成森林。判断的方法是：如果二叉树的根节点有右孩子，那就是森林，如果没有的话，就是树。</p>
+<p>若能转化为森林：</p>
+<ol>
+<li>从根节点开始，把与右孩子的连线删除掉，再看分离后的二叉树，如果右孩子存在，删除连线，得到分离二叉树。</li>
+<li>再将各个二叉树转化为树。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/树/" rel="tag"># 树</a>
+          
+            <a href="/tags/树的森林的转化/" rel="tag"># 树的森林的转化</a>
+          
+            <a href="/tags/森林/" rel="tag"># 森林</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/10/线索二叉树/" rel="next" title="线索二叉树">
+                <i class="fa fa-chevron-left"></i> 线索二叉树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/16/哈夫曼树/" rel="prev" title="哈夫曼树">
+                哈夫曼树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/f3f80ee72999fa9f08eaf335bc8330eb.jpg"
+                alt="Youmo" />
+            
+              <p class="site-author-name" itemprop="name">Youmo</p>
+              <p class="site-description motion-element" itemprop="description">学习的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Youmo742" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1481414022@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#树转化为二叉树"><span class="nav-number">1.</span> <span class="nav-text">树转化为二叉树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#森林转化为二叉树"><span class="nav-number">2.</span> <span class="nav-text">森林转化为二叉树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉树转化为树"><span class="nav-number">3.</span> <span class="nav-text">二叉树转化为树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉树转化为森林"><span class="nav-number">4.</span> <span class="nav-text">二叉树转化为森林</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Youmo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

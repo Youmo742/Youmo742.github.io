@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库学习">
+<meta property="og:url" content="http://yoursite.com/2018/06/27/数据库学习/index.html">
+<meta property="og:site_name" content="忧漠的博客">
+<meta property="og:description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-06T08:13:11.934Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库学习">
+<meta name="twitter:description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/27/数据库学习/"/>
+
+
+
+
+
+  <title>数据库学习 | 忧漠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">忧漠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">总有一个舞台属于你</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/数据库学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Youmo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/f3f80ee72999fa9f08eaf335bc8330eb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="忧漠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T23:24:07+08:00">
+                2018-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、前期准备工作。"><a href="#1、前期准备工作。" class="headerlink" title="1、前期准备工作。"></a>1、前期准备工作。</h2><p>1 mysql下载与安装。下面的教齐全。<br>(<a href="https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html</a>)<br>配置好，并启动服务之后，便可以开始操作。<br><strong>而图形化的界面更方便操作，所以，安装图形化操作界面</strong><br><em>navicat下载位置</em><br>(<a href="http://www.cr173.com/soft/38153.html" target="_blank" rel="noopener">http://www.cr173.com/soft/38153.html</a>)<br>建立与本地数据库的连接，开始操作。 </p>
+<h2 id="图形化操作很方便，在这里说命令行操作"><a href="#图形化操作很方便，在这里说命令行操作" class="headerlink" title="图形化操作很方便，在这里说命令行操作"></a>图形化操作很方便，在这里说命令行操作</h2><h3 id="1-创建一个模式和删除一个模式"><a href="#1-创建一个模式和删除一个模式" class="headerlink" title="1. 创建一个模式和删除一个模式"></a>1. 创建一个模式和删除一个模式</h3><ol>
+<li>模式相当于一个总的容器，在里面建立表。    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create schema  &quot;模式名&quot; authorization  &lt;用户名&gt;;</span><br><span class="line"># create schema &quot;test&quot; authorzation MA;</span><br><span class="line"># 为MA创建一个“test”的模式；</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>模式实际上创建了一个命名空间，然后可以创建模式的对象(表，视图)。<br>/* 还不是很懂，待完善   </p>
+<ol>
+<li>删除一个模式    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">drop schema &quot;模式名&quot; &lt;cascade|restrict&gt;;</span><br><span class="line"># drop scheme &quot;test&quot; cascade;</span><br><span class="line"># 或者drop schema MA cascade;</span><br><span class="line"># 删除了一个MA模式，连同其下面的对象；</span><br><span class="line"># cascade 强制删除一个模式，连同下面的对象。</span><br><span class="line"># restrict 若模式下面有对象，则拒绝删除。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="2-基本表的定义、删除、修改"><a href="#2-基本表的定义、删除、修改" class="headerlink" title="2. 基本表的定义、删除、修改"></a>2. 基本表的定义、删除、修改</h3><p><strong>当创建了一个模式之后，就可以在其中定义对象了</strong>   </p>
+<ol>
+<li><p>创建一个基本表   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">create table &lt;表名&gt; (&lt;列名&gt; &lt;数据类型&gt; &lt;约束条件&gt;，...,);</span><br><span class="line">#  约束条件是可选的;</span><br><span class="line"># 以逗号分隔，可以创建多个列名；   </span><br><span class="line"># create table stu (name varchar[20],mobile varchar[11]);</span><br><span class="line"># 这便创建一个stu 的表;</span><br><span class="line"># 至于数据完整性约束以后再讲。</span><br><span class="line">定义 </span><br><span class="line">    数据完整性用于保证数据库中数据的正确性、一致性和可靠性。 </span><br><span class="line">#类型 </span><br><span class="line"> 实体完整性(Entity Integrity) </span><br><span class="line"> 域完整性(Domain Integrity) </span><br><span class="line"> 参照完整性(Referential Integrity) </span><br><span class="line"> 用户定义完整性(User-defined Integrity)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改基本表   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;表名&gt; [add &lt;列名&gt; &lt;数据类型&gt; &lt;约束条件&gt; /*增加一列*/];</span><br><span class="line">                   [drop &lt;列名&gt; &lt;数据类型&gt; /*修改原来的列，包括定义，数据类型*/];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除基本表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table &lt;表名&gt; [restirct|cascade];</span><br><span class="line"># 用法和上面删除模式的一样;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="数据查询"><a href="#数据查询" class="headerlink" title="数据查询"></a>数据查询</h3><p><strong>数据查询可谓是数据库的核心操作</strong>   </p>
+<ol>
+<li>单表的查询   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select &lt;要查询的项/*可以有多个,也可以直接一个“*”号，表示查询全部的列*/&gt;</span><br><span class="line">from &lt;表名/*从那个表查询*/&gt;</span><br><span class="line">where &lt;要查询的条件表达式&gt;/*可选的*/;</span><br><span class="line"># 查询可以写一篇博客，不详细赘述。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以参见见这篇博客<br>(<a href="https://www.cnblogs.com/sunada2005/p/3411873.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunada2005/p/3411873.html</a>)   </p>
+<h3 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h3><ol>
+<li><p>插入数据   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">insert</span><br><span class="line">into  &lt;表名&gt; (列1，列2.../*可选的，可以没有这条*/)</span><br><span class="line">values(数据，数据);</span><br><span class="line"># 注意：</span><br><span class="line">#     当表名后面的列名不填时，values必须包括表的所有属性列</span><br><span class="line">#     当写了列名之后，数据属性就要与列名一一对应</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">update &lt;表名&gt;</span><br><span class="line">set &lt;列名&gt;=&lt;表达式&gt;</span><br><span class="line">where &lt;条件&gt;;</span><br><span class="line"># updata stu</span><br><span class="line"># set mobile=13595442985</span><br><span class="line"># where name=&apos;wang&apos;;</span><br><span class="line"># 修改wang的mobile为1351254651</span><br><span class="line"># 条件都是可嵌套的或者可选的</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> from &lt;表名&gt;</span><br><span class="line">where &lt;条件&gt;;</span><br><span class="line"><span class="meta"># delete from stu</span></span><br><span class="line"># where name='wang'</span><br><span class="line"># 把wang所有信息都删除.</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong><em>基本操作就这么多，需要多练习，学习</em></strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/27/数据库再理解/" rel="next" title="数据库再理解">
+                <i class="fa fa-chevron-left"></i> 数据库再理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/27/数据库的主键&外键/" rel="prev" title="数据库的主键&外键">
+                数据库的主键&外键 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/f3f80ee72999fa9f08eaf335bc8330eb.jpg"
+                alt="Youmo" />
+            
+              <p class="site-author-name" itemprop="name">Youmo</p>
+              <p class="site-description motion-element" itemprop="description">学习的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Youmo742" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1481414022@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、前期准备工作。"><span class="nav-number">1.</span> <span class="nav-text">1、前期准备工作。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图形化操作很方便，在这里说命令行操作"><span class="nav-number">2.</span> <span class="nav-text">图形化操作很方便，在这里说命令行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建一个模式和删除一个模式"><span class="nav-number">2.1.</span> <span class="nav-text">1. 创建一个模式和删除一个模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基本表的定义、删除、修改"><span class="nav-number">2.2.</span> <span class="nav-text">2. 基本表的定义、删除、修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据查询"><span class="nav-number">2.3.</span> <span class="nav-text">数据查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据操作"><span class="nav-number">2.4.</span> <span class="nav-text">数据操作</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Youmo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

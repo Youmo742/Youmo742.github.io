@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="XML学习笔记,XML语法,XML格式,dtd约束," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="格式及语法开头&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;&amp;gt; 必须以此 格式 开头，让浏览器或者解释器知道这是一个XML文件。 结构 有且仅有一个称为 根元素的节点 。 标签的格式为&amp;lt;lable&amp;gt;discribe&amp;lt;/lable&amp;gt;，不能以数字开头。 标签可以嵌套，但有开始标签，必须有结束标签。或者">
+<meta name="keywords" content="XML学习笔记,XML语法,XML格式,dtd约束">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XML">
+<meta property="og:url" content="http://yoursite.com/2018/06/14/XML/index.html">
+<meta property="og:site_name" content="忧漠的博客">
+<meta property="og:description" content="格式及语法开头&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;&amp;gt; 必须以此 格式 开头，让浏览器或者解释器知道这是一个XML文件。 结构 有且仅有一个称为 根元素的节点 。 标签的格式为&amp;lt;lable&amp;gt;discribe&amp;lt;/lable&amp;gt;，不能以数字开头。 标签可以嵌套，但有开始标签，必须有结束标签。或者">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-27T15:28:52.954Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XML">
+<meta name="twitter:description" content="格式及语法开头&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;&amp;gt; 必须以此 格式 开头，让浏览器或者解释器知道这是一个XML文件。 结构 有且仅有一个称为 根元素的节点 。 标签的格式为&amp;lt;lable&amp;gt;discribe&amp;lt;/lable&amp;gt;，不能以数字开头。 标签可以嵌套，但有开始标签，必须有结束标签。或者">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/14/XML/"/>
+
+
+
+
+
+  <title>XML | 忧漠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">忧漠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">总有一个舞台属于你</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/14/XML/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Youmo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/f3f80ee72999fa9f08eaf335bc8330eb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="忧漠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XML</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-14T21:34:14+08:00">
+                2018-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/XML/" itemprop="url" rel="index">
+                    <span itemprop="name">XML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="格式及语法"><a href="#格式及语法" class="headerlink" title="格式及语法"></a>格式及语法</h1><h2 id="开头"><a href="#开头" class="headerlink" title="开头"></a>开头</h2><p><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;&gt;</code></p>
+<p>必须以此 格式 开头，让浏览器或者解释器知道这是一个XML文件。</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><ol>
+<li>有且仅有一个称为 根元素的节点 。</li>
+<li>标签的格式为<code>&lt;lable&gt;discribe&lt;/lable&gt;</code>，不能以数字开头。</li>
+<li>标签可以嵌套，但有开始标签，必须有结束标签。或者直接为空标签<code>&lt;/lable&gt;</code></li>
+</ol>
+<h2 id="语法和细节"><a href="#语法和细节" class="headerlink" title="语法和细节"></a>语法和细节</h2><ol>
+<li><p>特殊符号</p>
+<p>大多数符号可以用，但特殊的<code>&lt; &gt; &quot; &#39;</code>,这本身是XML构成的部分。</p>
+<ul>
+<li><p>双引号内部可以嵌套单引号，单引号内部也可以嵌套双引号，不可以自己嵌套自己。</p>
+</li>
+<li><p>当必须这样做的时候，引用实体，用特殊的处理方式显示。</p>
+<p>| 符号    | 表示意思 |<br>| —– | —- |<br>| &amp;lt   | &lt;    |<br>| &amp;gt   | &gt;    |<br>| &amp;amp  | &amp;    |<br>| &amp;apos | ‘    |<br>| &amp;quot | “    |</p>
+</li>
+</ul>
+</li>
+<li><p><strong>CDATA节</strong></p>
+<p>当有大量的特殊字符需要引用的时候，便需要使用CDATA节。它就是为了原样保存字符串内容的。</p>
+<p>格式<code>&lt;![CDATA[@#$%^&amp;BJHbdjcj]]&gt;</code>。</p>
+</li>
+</ol>
+<h1 id="DTD约束"><a href="#DTD约束" class="headerlink" title="DTD约束"></a>DTD约束</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ol>
+<li><p>DOCUMENT TYPE DEFINE,即文档格式定义，为了解决XML太过自由的问题，可以约束XML文档该出现哪些内容，哪些不能出现。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">stu</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">lastname</span>&gt;</span>Smith<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">sex</span>&gt;</span>男<span class="tag">&lt;/<span class="name">sex</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">intro</span>&gt;</span>Nice<span class="tag">&lt;/<span class="name">intro</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Jily<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">lastname</span>&gt;</span>John<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">sex</span>&gt;</span>女<span class="tag">&lt;/<span class="name">sex</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--&lt;Square&gt;100&lt;Square&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">stu</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>自然，在学生中，是不能出现Square元素的，但是，写了，没有什么东西可以让它不使用。</p>
+</li>
+</ol>
+<h2 id="DTD文件"><a href="#DTD文件" class="headerlink" title="DTD文件"></a>DTD文件</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">class</span> (<span class="attr">stu</span>+)&gt;</span></span><br><span class="line"><span class="comment">&lt;!--class为根元素，（stu+）表示，至少有一个元素--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">stu</span>(<span class="attr">name</span>,<span class="attr">sex</span>,<span class="attr">intro</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">name</span>(#<span class="attr">PCDATA</span>)&gt;</span></span><br><span class="line"><span class="comment">&lt;!--#PCDATA 表示可以使用任何文本，但不能包含任何子元素，（比如name）</span></span><br><span class="line"><span class="comment">    #EMPTY 表示不能有任何内容</span></span><br><span class="line"><span class="comment">    #ANY 可以包含任何在DTD中已经定义过的元素（比如 sex）</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">sex</span>(#<span class="attr">PCDATA</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">intro</span>(#<span class="attr">PCDATA</span>)&gt;</span></span><br></pre></td></tr></table></figure>
+<p>dtd文件中，<code>,</code>表示顺序，如果使用顺序出错，不予以通过。</p>
+<p><code>（）</code>用来给元素分组。</p>
+<p><code>+</code>元素必须出现，至少一次</p>
+<p><code>*</code>可以不出现</p>
+<ul>
+<li><p>元素属性及其约束</p>
+<p>| 属性值       | 属性的选项       |<br>| ——— | ———– |<br>| #REQURIED | 必须给属性设置     |<br>| #IMPLIED  | 属性的值是可选     |<br>| #FIXED    | 属性的值是固定的一个值 |</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性类型</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CDATA</td>
+<td>任意的字符串</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>唯一的一个标识符，不能重复，不i能以数字开头</td>
+</tr>
+<tr>
+<td>(att\</td>
+<td>att)</td>
+<td>值为枚举类型，事先定义好的一些</td>
+</tr>
+<tr>
+<td>ENTITY</td>
+<td>实体，定义好实体，在 这里引用即可</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>元素属性的约束最好放在对应元素的下面。</p>
+</li>
+<li><p>语法：</p>
+<ul>
+<li><code>&lt;ATTLIST 元素 属性 属性要求 属性特点&gt;</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">NEWSPAPER</span> (<span class="attr">ARTICLE</span>+)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">ARTICLE</span> (<span class="attr">HEADLINE</span>,<span class="attr">BYLINE</span>,<span class="attr">LEAD</span>,<span class="attr">BODY</span>,<span class="attr">NOTES</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">HEADLINE</span> (#<span class="attr">PCDATA</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">BYLINE</span> (#<span class="attr">PCDATA</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">LEAD</span> (#<span class="attr">PCDATA</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">BODY</span> (#<span class="attr">PCDATA</span>)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ELEMENT</span> <span class="attr">NOTES</span> (#<span class="attr">PCDATA</span>)&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">!ATTLIST</span> <span class="attr">ARTICLE</span> <span class="attr">AUTHOR</span> <span class="attr">CDATA</span> #<span class="attr">REQUIRED</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ATTLIST</span> <span class="attr">ARTICLE</span> <span class="attr">EDITOR</span> <span class="attr">CDATA</span> #<span class="attr">IMPLIED</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ATTLIST</span> <span class="attr">ARTICLE</span> <span class="attr">DATE</span> <span class="attr">CDATA</span> #<span class="attr">IMPLIED</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ATTLIST</span> <span class="attr">ARTICLE</span> <span class="attr">EDITION</span> <span class="attr">CDATA</span> #<span class="attr">IMPLIED</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> <span class="attr">NEWSPAPER</span> "<span class="attr">Vervet</span> <span class="attr">Logic</span> <span class="attr">Times</span>"&gt;</span><span class="comment">&lt;!--定义实体--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> <span class="attr">PUBLISHER</span> "<span class="attr">Vervet</span> <span class="attr">Logic</span> <span class="attr">Press</span>"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> <span class="attr">COPYRIGHT</span> "<span class="attr">Copyright</span> <span class="attr">1998</span> <span class="attr">Vervet</span> <span class="attr">Logic</span> <span class="attr">Press</span>"&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>保存为*.dtd</p>
+<h2 id="在XML中引用DTD"><a href="#在XML中引用DTD" class="headerlink" title="在XML中引用DTD"></a>在XML中引用DTD</h2><p>在XML中使用DTD的方式有两种，一种为内部DTD，一种为外部DTD。</p>
+<ol>
+<li><p>内部DTD就是直接在XML文档中定义DTD内容。</p>
+</li>
+<li><p>外部DTD</p>
+<ul>
+<li><p>引入本地DTD</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">!DCOTYPE</span> 根元素 <span class="attr">SYSTEM</span> "本地<span class="attr">DTD</span>地址"&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引入公共DTD，别人写好的</p>
+<p><code>&lt;!DOCTYPE 根元素 PUBLIC &quot;URL&quot;&gt;</code></p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="comment">&lt;!--dtd约束文件--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE class SYSTEM "Mysecond.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">stu</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">lastname</span>&gt;</span>Smith<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">sex</span>&gt;</span>男<span class="tag">&lt;/<span class="name">sex</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">intro</span>&gt;</span>Nice<span class="tag">&lt;/<span class="name">intro</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Jily<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">lastname</span>&gt;</span>John<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">sex</span>&gt;</span>女<span class="tag">&lt;/<span class="name">sex</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--&lt;Square&gt;100&lt;Square&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">stu</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/XML学习笔记/" rel="tag"># XML学习笔记</a>
+          
+            <a href="/tags/XML语法/" rel="tag"># XML语法</a>
+          
+            <a href="/tags/XML格式/" rel="tag"># XML格式</a>
+          
+            <a href="/tags/dtd约束/" rel="tag"># dtd约束</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/14/盘点一下Linux遇到的问题/" rel="next" title="盘点一下Linux遇到的问题">
+                <i class="fa fa-chevron-left"></i> 盘点一下Linux遇到的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/27/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/f3f80ee72999fa9f08eaf335bc8330eb.jpg"
+                alt="Youmo" />
+            
+              <p class="site-author-name" itemprop="name">Youmo</p>
+              <p class="site-description motion-element" itemprop="description">学习的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Youmo742" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1481414022@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#格式及语法"><span class="nav-number">1.</span> <span class="nav-text">格式及语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开头"><span class="nav-number">1.1.</span> <span class="nav-text">开头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">1.2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法和细节"><span class="nav-number">1.3.</span> <span class="nav-text">语法和细节</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DTD约束"><span class="nav-number">2.</span> <span class="nav-text">DTD约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DTD文件"><span class="nav-number">2.2.</span> <span class="nav-text">DTD文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在XML中引用DTD"><span class="nav-number">2.3.</span> <span class="nav-text">在XML中引用DTD</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Youmo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
