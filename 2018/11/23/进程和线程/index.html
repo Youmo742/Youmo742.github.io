@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据库," />
+  <meta name="keywords" content="进程,线程," />
 
 
 
@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
-<meta name="keywords" content="数据库">
+<meta name="description" content="1.什么是进程 所有可运行的软件通常被组织成一系列顺序进程，简称进程，一个进程就是一个正在运行的程序的实例。A　process is just an instance of an executing program, including the current values of the program counter, registers, and variables  2. 进程的创建 导致进">
+<meta name="keywords" content="进程,线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库学习">
-<meta property="og:url" content="http://yoursite.com/2018/01/06/数据库学习/index.html">
+<meta property="og:title" content="进程和线程">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/进程和线程/index.html">
 <meta property="og:site_name" content="忧漠的博客">
-<meta property="og:description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
+<meta property="og:description" content="1.什么是进程 所有可运行的软件通常被组织成一系列顺序进程，简称进程，一个进程就是一个正在运行的程序的实例。A　process is just an instance of an executing program, including the current values of the program counter, registers, and variables  2. 进程的创建 导致进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-06T08:13:11.934Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/00746wNnly1fy9s0h2qdqj30ff052aac.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/00746wNnly1fy9zubn5ylj30i006g3z6.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/00746wNnly1fyatmbmadhj30h70algmt.jpg">
+<meta property="og:updated_time" content="2019-01-17T07:37:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库学习">
-<meta name="twitter:description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
+<meta name="twitter:title" content="进程和线程">
+<meta name="twitter:description" content="1.什么是进程 所有可运行的软件通常被组织成一系列顺序进程，简称进程，一个进程就是一个正在运行的程序的实例。A　process is just an instance of an executing program, including the current values of the program counter, registers, and variables  2. 进程的创建 导致进">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/00746wNnly1fy9s0h2qdqj30ff052aac.jpg">
 
 
 
@@ -120,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/06/数据库学习/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/23/进程和线程/"/>
 
 
 
 
 
-  <title>数据库学习 | 忧漠的博客</title>
+  <title>进程和线程 | 忧漠的博客</title>
   
 
 
@@ -263,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/06/数据库学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/进程和线程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Youmo">
@@ -280,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库学习</h1>
+          <h1 class="post-title" itemprop="name headline">进程和线程</h1>
         
 
         <div class="post-meta">
@@ -292,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-06T16:13:11+08:00">
-                2018-01-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-23T00:00:00+08:00">
+                2018-11-23
               </time>
             
 
@@ -302,6 +306,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -330,46 +356,108 @@
       
 
       
-        <h2 id="1、前期准备工作。"><a href="#1、前期准备工作。" class="headerlink" title="1、前期准备工作。"></a>1、前期准备工作。</h2><p>1 mysql下载与安装。下面的教齐全。<br>(<a href="https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html</a>)<br>配置好，并启动服务之后，便可以开始操作。<br><strong>而图形化的界面更方便操作，所以，安装图形化操作界面</strong><br><em>navicat下载位置</em><br>(<a href="http://www.cr173.com/soft/38153.html" target="_blank" rel="noopener">http://www.cr173.com/soft/38153.html</a>)<br>建立与本地数据库的连接，开始操作。 </p>
-<h2 id="图形化操作很方便，在这里说命令行操作"><a href="#图形化操作很方便，在这里说命令行操作" class="headerlink" title="图形化操作很方便，在这里说命令行操作"></a>图形化操作很方便，在这里说命令行操作</h2><h3 id="1-创建一个模式和删除一个模式"><a href="#1-创建一个模式和删除一个模式" class="headerlink" title="1. 创建一个模式和删除一个模式"></a>1. 创建一个模式和删除一个模式</h3><ol>
-<li>模式相当于一个总的容器，在里面建立表。    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create schema  &quot;模式名&quot; authorization  &lt;用户名&gt;;</span><br><span class="line"># create schema &quot;test&quot; authorzation MA;</span><br><span class="line"># 为MA创建一个“test”的模式；</span><br></pre></td></tr></table></figure>
+        <h2 id="1-什么是进程"><a href="#1-什么是进程" class="headerlink" title="1.什么是进程"></a>1.什么是进程</h2><ol>
+<li>所有可运行的软件通常被组织成一系列顺序进程，简称<strong>进程</strong>，一个进程就是一个正在运行的程序的实例。A　process is just an instance of an executing program, including the current values of the program counter, registers, and variables</li>
+</ol>
+<h2 id="2-进程的创建"><a href="#2-进程的创建" class="headerlink" title="2. 进程的创建"></a>2. 进程的创建</h2><ol>
+<li>导致进程创建的四个主要的原因：<ul>
+<li>System initialization</li>
+<li>Execution of a process-creation system call by a running process.</li>
+<li>A user request to create a new process.</li>
+<li>Initiation of a batch job.</li>
+</ul>
 </li>
 </ol>
-<p>模式实际上创建了一个命名空间，然后可以创建模式的对象(表，视图)。<br>/* 还不是很懂，待完善   </p>
+<h2 id="3-进程的退出"><a href="#3-进程的退出" class="headerlink" title="3.进程的退出"></a>3.进程的退出</h2><ol>
+<li>导致进程结束的原因<ul>
+<li>正常退出(自愿的，完成了自己的任务)</li>
+<li>出错退出(自愿的，本身出现了某些问题)</li>
+<li>发生了严重的错误</li>
+<li>被其他进程杀死</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-进程的状态"><a href="#4-进程的状态" class="headerlink" title="4.进程的状态"></a>4.进程的状态</h2><p><img src="https://ws1.sinaimg.cn/large/00746wNnly1fy9s0h2qdqj30ff052aac.jpg" alt=""></p>
+<p>不可以从Ready切换到Blocked状态。</p>
+<h2 id="5-进程的实现"><a href="#5-进程的实现" class="headerlink" title="5.进程的实现"></a>5.进程的实现</h2><ol>
+<li>为了实现进程模型，操作系统维护这一张表格，叫做<strong>Process table</strong>，每个进程有一个<strong>entry(入口)</strong>，这些<strong>entries</strong>也有的人称之为<strong>Process control block</strong>。</li>
+<li>This entry contains important　information about the process’ state, including its program counter, stack pointer,memory allocation, the status of its open files。(程序计数器，堆栈指针，内存分配，打开的文件状态)。</li>
+<li>each process has an address space and a single thread of control。</li>
+</ol>
+<h2 id="6-线程"><a href="#6-线程" class="headerlink" title="6.线程"></a>6.线程</h2><ol>
+<li><p>线程也叫做<strong>轻量级进程</strong>(lightweight)。</p>
+<p><img src="https://ws1.sinaimg.cn/large/00746wNnly1fy9zubn5ylj30i006g3z6.jpg" alt=""></p>
+</li>
+<li><p>资源分配的单位是进程，CPU调度的单位是线程。</p>
+<h3 id="1-线程的实现"><a href="#1-线程的实现" class="headerlink" title="1.线程的实现"></a>1.线程的实现</h3></li>
+<li><p>线程的实现地方主要有两个：<strong>用户空间和内核空间</strong>。</p>
+<p><strong>用户空间：</strong></p>
 <ol>
-<li>删除一个模式    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">drop schema &quot;模式名&quot; &lt;cascade|restrict&gt;;</span><br><span class="line"># drop scheme &quot;test&quot; cascade;</span><br><span class="line"># 或者drop schema MA cascade;</span><br><span class="line"># 删除了一个MA模式，连同其下面的对象；</span><br><span class="line"># cascade 强制删除一个模式，连同下面的对象。</span><br><span class="line"># restrict 若模式下面有对象，则拒绝删除。</span><br></pre></td></tr></table></figure>
+<li><p>优点</p>
+<ul>
+<li>可以在不支持线程的系统上运行线程，在用户空间实现时，每个进程管理着一个表项，叫做<strong>线程表</strong>，保存了线程的程序计数器、栈指针、状态等。</li>
+<li>切换，调度速度快。当一个线程阻塞，只需要将自身的状态保存到线程表中，查看线程表项，将可运行的线程装入寄存器。</li>
+<li>每个进程可以有自己的线程调度算法。</li>
+<li>用户空间比内核空间大，可以实现更多的线程。</li>
+<li>不需要陷入内核，不需要上下文切换，也不需要对内存高速缓存进行刷新，使得线程调用非常快捷。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li><p>如何实现阻塞系统调用。</p>
+</li>
+<li><p>一旦一个线程开始运行，进程中其他线程便无法运行。线程发生I/O或页面故障引起的阻塞时，如果调用阻塞系统调用则内核由于不知道有多线程的存在，而会阻塞整个进程从而阻塞所有线程, 因此同一进程中只能同时有一个线程在运行</p>
+<p>（用户级线程驻留在用户空间或模式。运行时库管理这些线程，它也位于用户空间。它们对于操作系统是不可见的，因此无法被调度到处理器内核。每个线程并不具有自身的线程上下文。因此，就线程的同时执行而言，任意给定时刻每个进程只能够有一个线程在运行，而且只有一个处理器内核会被分配给该进程。对于一个进程，可能有成千上万个用户级线程，但是它们对系统资源没有影响。运行时库调度并分派这些线程。！）</p>
+</li>
+</ul>
 </li>
 </ol>
-<h3 id="2-基本表的定义、删除、修改"><a href="#2-基本表的定义、删除、修改" class="headerlink" title="2. 基本表的定义、删除、修改"></a>2. 基本表的定义、删除、修改</h3><p><strong>当创建了一个模式之后，就可以在其中定义对象了</strong>   </p>
+<p><strong>内核空间</strong>：内核线程建立和销毁都是由操作系统负责、通过系统调用完成的。在内核的支持下运行，无论是用户进程的线程，或者是系统进程的线程，他们的创建、撤销、切换都是依靠内核实现的。</p>
 <ol>
-<li><p>创建一个基本表   </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">create table &lt;表名&gt; (&lt;列名&gt; &lt;数据类型&gt; &lt;约束条件&gt;，...,);</span><br><span class="line">#  约束条件是可选的;</span><br><span class="line"># 以逗号分隔，可以创建多个列名；   </span><br><span class="line"># create table stu (name varchar[20],mobile varchar[11]);</span><br><span class="line"># 这便创建一个stu 的表;</span><br><span class="line"># 至于数据完整性约束以后再讲。</span><br><span class="line">定义 </span><br><span class="line">    数据完整性用于保证数据库中数据的正确性、一致性和可靠性。 </span><br><span class="line">#类型 </span><br><span class="line"> 实体完整性(Entity Integrity) </span><br><span class="line"> 域完整性(Domain Integrity) </span><br><span class="line"> 参照完整性(Referential Integrity) </span><br><span class="line"> 用户定义完整性(User-defined Integrity)</span><br></pre></td></tr></table></figure>
+<li><p>优点</p>
+<ul>
+<li>多处理器系统中，内核能够并行执行同一进程内的多个线程</li>
+<li>如果进程中的一个线程被阻塞，能够切换同一进程内的其他线程继续执行</li>
+<li>信号是发给进程而不是线程的，当一个信号到达时，应该由哪一个线程处理它？线程可以“注册”它们感兴趣的信号</li>
+</ul>
 </li>
-<li><p>修改基本表   </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;表名&gt; [add &lt;列名&gt; &lt;数据类型&gt; &lt;约束条件&gt; /*增加一列*/];</span><br><span class="line">                   [drop &lt;列名&gt; &lt;数据类型&gt; /*修改原来的列，包括定义，数据类型*/];</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除基本表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table &lt;表名&gt; [restirct|cascade];</span><br><span class="line"># 用法和上面删除模式的一样;</span><br></pre></td></tr></table></figure>
+<li><p>缺点</p>
+<p>关于慢，因为程序是运行在用户空间的，若要进行系统调用，则需要进入内核态，这就要花费一定的时间，所以才会慢。</p>
 </li>
 </ol>
-<h3 id="数据查询"><a href="#数据查询" class="headerlink" title="数据查询"></a>数据查询</h3><p><strong>数据查询可谓是数据库的核心操作</strong>   </p>
+</li>
+</ol>
+<h2 id="7-进程和线程的区别"><a href="#7-进程和线程的区别" class="headerlink" title="7. 进程和线程的区别"></a>7. 进程和线程的区别</h2><h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><ol>
+<li><p>地址空间：</p>
+<p>每个进程拥有独立的虚拟地址空间，而同一进程的多个线程共同分享进程的地址空间。</p>
+</li>
+<li><p>资源分配和调度</p>
 <ol>
-<li>单表的查询   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select &lt;要查询的项/*可以有多个,也可以直接一个“*”号，表示查询全部的列*/&gt;</span><br><span class="line">from &lt;表名/*从那个表查询*/&gt;</span><br><span class="line">where &lt;要查询的条件表达式&gt;/*可选的*/;</span><br><span class="line"># 查询可以写一篇博客，不详细赘述。</span><br></pre></td></tr></table></figure>
+<li><p>进程是资源分配的单位，线程是CPU调度的单位。</p>
+<p>程序只是一系列指令的集合，而进程是程序在运行时候的实例，拥有自己的虚拟地址空间，包括PCB、数据段、代码段、堆栈段。PCB是进程创建的时候创建的，是进程的一部分，记录这这个进程的所有信息，以便CPU对其调度。</p>
 </li>
 </ol>
-<p>可以参见见这篇博客<br>(<a href="https://www.cnblogs.com/sunada2005/p/3411873.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunada2005/p/3411873.html</a>)   </p>
-<h3 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h3><ol>
-<li><p>插入数据   </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">insert</span><br><span class="line">into  &lt;表名&gt; (列1，列2.../*可选的，可以没有这条*/)</span><br><span class="line">values(数据，数据);</span><br><span class="line"># 注意：</span><br><span class="line">#     当表名后面的列名不填时，values必须包括表的所有属性列</span><br><span class="line">#     当写了列名之后，数据属性就要与列名一一对应</span><br></pre></td></tr></table></figure>
+<p><img src="https://ws1.sinaimg.cn/large/00746wNnly1fyatmbmadhj30h70algmt.jpg" alt=""></p>
+<p>　   　线程也有自己的TCB，与进程的PCB相比，它包涵线程ID、程序计数器(记录执行哪条命令)、寄存器(保存工作现　场)、自己的堆栈指针、自己的状态。</p>
 </li>
-<li><p>更新数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">update &lt;表名&gt;</span><br><span class="line">set &lt;列名&gt;=&lt;表达式&gt;</span><br><span class="line">where &lt;条件&gt;;</span><br><span class="line"># updata stu</span><br><span class="line"># set mobile=13595442985</span><br><span class="line"># where name=&apos;wang&apos;;</span><br><span class="line"># 修改wang的mobile为1351254651</span><br><span class="line"># 条件都是可嵌套的或者可选的</span><br></pre></td></tr></table></figure>
+<li><p>创建</p>
+<p>线程的创建与撤销比进程耗费更少的时间</p>
 </li>
-<li><p>删除数据</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> from &lt;表名&gt;</span><br><span class="line">where &lt;条件&gt;;</span><br><span class="line"><span class="meta"># delete from stu</span></span><br><span class="line"># where name='wang'</span><br><span class="line"># 把wang所有信息都删除.</span><br></pre></td></tr></table></figure>
+<li><p>调度　</p>
+<p>线程比进程更轻量，所以切换速度比进程快。</p>
+</li>
+<li><p>安全性</p>
+<p>每个进程拥有独立的地址空间，一个挂了不影响另外一个。</p>
+<p>线程共享地址空间，一个挂了，整个进程可能就挂了。</p>
 </li>
 </ol>
-<p><strong><em>基本操作就这么多，需要多练习，学习</em></strong></p>
+<h3 id="联系："><a href="#联系：" class="headerlink" title="联系："></a>联系：</h3><ol>
+<li>线程的执行依赖进程，每一个进程至少有一个线程(称之为主线程)。</li>
+</ol>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li>运行时系统？？？</li>
+<li>什么叫阻塞系统调用？？？</li>
+</ol>
 
       
     </div>
@@ -387,7 +475,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+            <a href="/tags/进程/" rel="tag"># 进程</a>
+          
+            <a href="/tags/线程/" rel="tag"># 线程</a>
           
         </div>
       
@@ -400,8 +490,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/06/数据库的主键&外键/" rel="next" title="数据库的主键&外键">
-                <i class="fa fa-chevron-left"></i> 数据库的主键&外键
+              <a href="/2018/11/01/多选下拉框/" rel="next" title="多选下拉框">
+                <i class="fa fa-chevron-left"></i> 多选下拉框
               </a>
             
           </div>
@@ -410,8 +500,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/12/TCP协议 网络服务器和编程实现/" rel="prev" title="windowsTCP网络编程">
-                windowsTCP网络编程 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/23/Python常见问题/" rel="prev" title="Python常见问题">
+                Python常见问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -519,7 +609,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -530,7 +620,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -541,7 +631,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">68</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -590,7 +680,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、前期准备工作。"><span class="nav-number">1.</span> <span class="nav-text">1、前期准备工作。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图形化操作很方便，在这里说命令行操作"><span class="nav-number">2.</span> <span class="nav-text">图形化操作很方便，在这里说命令行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建一个模式和删除一个模式"><span class="nav-number">2.1.</span> <span class="nav-text">1. 创建一个模式和删除一个模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基本表的定义、删除、修改"><span class="nav-number">2.2.</span> <span class="nav-text">2. 基本表的定义、删除、修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据查询"><span class="nav-number">2.3.</span> <span class="nav-text">数据查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据操作"><span class="nav-number">2.4.</span> <span class="nav-text">数据操作</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是进程"><span class="nav-number">1.</span> <span class="nav-text">1.什么是进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-进程的创建"><span class="nav-number">2.</span> <span class="nav-text">2. 进程的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-进程的退出"><span class="nav-number">3.</span> <span class="nav-text">3.进程的退出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-进程的状态"><span class="nav-number">4.</span> <span class="nav-text">4.进程的状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-进程的实现"><span class="nav-number">5.</span> <span class="nav-text">5.进程的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-线程"><span class="nav-number">6.</span> <span class="nav-text">6.线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-线程的实现"><span class="nav-number">6.1.</span> <span class="nav-text">1.线程的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-进程和线程的区别"><span class="nav-number">7.</span> <span class="nav-text">7. 进程和线程的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别："><span class="nav-number">7.1.</span> <span class="nav-text">区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#联系："><span class="nav-number">7.2.</span> <span class="nav-text">联系：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number"></span> <span class="nav-text">问题</span></a></div>
             
 
           </div>
@@ -610,7 +700,7 @@ var jiathis_config={
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

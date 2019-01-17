@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="理解数据库的定义.   数据被组织成描述物理和概念上的记录，相关的数据库记录组成表。.   数据库包括数据和元数据，元数据用于表述以下事项     表中的列    找出表的中的索引    定义单条记录属性的域（值约束）元数据放在一个称为数据字典的单独表中   理解平面文件平面文件也是数据记录的集合，查看文件内容时，不会看到元数据。   文件和数据库的差别文件的管理方式数据库文件是由数据库管理系统管">
+<meta name="description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
 <meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库再理解">
-<meta property="og:url" content="http://yoursite.com/2018/01/06/数据库再理解/index.html">
+<meta property="og:title" content="数据库学习">
+<meta property="og:url" content="http://yoursite.com/2018/06/27/数据库学习/index.html">
 <meta property="og:site_name" content="忧漠的博客">
-<meta property="og:description" content="理解数据库的定义.   数据被组织成描述物理和概念上的记录，相关的数据库记录组成表。.   数据库包括数据和元数据，元数据用于表述以下事项     表中的列    找出表的中的索引    定义单条记录属性的域（值约束）元数据放在一个称为数据字典的单独表中   理解平面文件平面文件也是数据记录的集合，查看文件内容时，不会看到元数据。   文件和数据库的差别文件的管理方式数据库文件是由数据库管理系统管">
+<meta property="og:description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-06T07:58:36.748Z">
+<meta property="og:updated_time" content="2018-01-06T08:13:11.934Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库再理解">
-<meta name="twitter:description" content="理解数据库的定义.   数据被组织成描述物理和概念上的记录，相关的数据库记录组成表。.   数据库包括数据和元数据，元数据用于表述以下事项     表中的列    找出表的中的索引    定义单条记录属性的域（值约束）元数据放在一个称为数据字典的单独表中   理解平面文件平面文件也是数据记录的集合，查看文件内容时，不会看到元数据。   文件和数据库的差别文件的管理方式数据库文件是由数据库管理系统管">
+<meta name="twitter:title" content="数据库学习">
+<meta name="twitter:description" content="1、前期准备工作。1 mysql下载与安装。下面的教齐全。(https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html)配置好，并启动服务之后，便可以开始操作。而图形化的界面更方便操作，所以，安装图形化操作界面navicat下载位置(http://www.cr173.com/soft/38153.html)建立与本地数据库的连接，">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/06/数据库再理解/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/27/数据库学习/"/>
 
 
 
 
 
-  <title>数据库再理解 | 忧漠的博客</title>
+  <title>数据库学习 | 忧漠的博客</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/06/数据库再理解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/数据库学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Youmo">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库再理解</h1>
+          <h1 class="post-title" itemprop="name headline">数据库学习</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-06T15:58:36+08:00">
-                2018-01-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T23:24:07+08:00">
+                2018-06-27
               </time>
             
 
@@ -330,34 +330,46 @@
       
 
       
-        <h2 id="理解数据库的定义"><a href="#理解数据库的定义" class="headerlink" title="理解数据库的定义"></a>理解数据库的定义</h2><p>.   数据被组织成描述物理和概念上的记录，相关的数据库记录组成表。<br>.   数据库包括数据和元数据，元数据用于表述以下事项   </p>
-<ul>
-<li>表中的列   </li>
-<li>找出表的中的索引   </li>
-<li>定义单条记录属性的域（值约束）<br><strong>元数据放在一个称为数据字典的单独表中</strong>   <h2 id="理解平面文件"><a href="#理解平面文件" class="headerlink" title="理解平面文件"></a>理解平面文件</h2>平面文件也是数据记录的集合，查看文件内容时，不会看到元数据。   <h2 id="文件和数据库的差别"><a href="#文件和数据库的差别" class="headerlink" title="文件和数据库的差别"></a>文件和数据库的差别</h2><h3 id="文件的管理方式"><a href="#文件的管理方式" class="headerlink" title="文件的管理方式"></a>文件的管理方式</h3>数据库文件是由数据库管理系统管理的，平面文件是由<strong>受操作系统的文件管理系统</strong>管理的。两者不同。   </li>
-<li>处理平面文件的程序必须有特定的代码来定义数据类型和数据的操作，当数据记录发生改变后，必须重新编写用于处理数据的程序。导致，程序员必须了解数是如<br>何存储的。   </li>
-<li>而数据库文件的操作是由DBMS来控制的，程序员只需指定操作的行动即可。   </li>
-<li>文件的操作，没有移植性，因为各个操作系统的差异。而数据库，并不会受限。   <h3 id="数据库由层次模型-gt-网络模型-gt-关系模型"><a href="#数据库由层次模型-gt-网络模型-gt-关系模型" class="headerlink" title="数据库由层次模型 -&gt; 网络模型 -&gt; 关系模型"></a>数据库由<strong>层次模型</strong> -&gt; <strong>网络模型</strong> -&gt; <strong>关系模型</strong></h3>层次模型和网络模型，数据之间的联系由<strong>父/子记录指针</strong>描述，关系模型用共同的列，即<strong>（主键和外键）</strong>来描述和约束。   </li>
-</ul>
-<h3 id="数据库架构"><a href="#数据库架构" class="headerlink" title="数据库架构"></a>数据库架构</h3><p>架构 ！= 模式  。一个数据库中模式只有唯一一个，而架构可以由多个。   </p>
-<ul>
-<li>架构是一个表的集合。包括   </li>
-</ul>
-<ol>
-<li>表   </li>
-<li>试图   </li>
-<li>断言   </li>
-<li>权限   </li>
-<li>字符集<br>架构相当于一个容器，可以在容器中创建表和试图等。   <h3 id="表的组成"><a href="#表的组成" class="headerlink" title="表的组成"></a>表的组成</h3>表名，列名，数据类型，结构。   <h3 id="基于表创建视图"><a href="#基于表创建视图" class="headerlink" title="基于表创建视图"></a>基于表创建视图</h3>一切对表的操作适用于视图，视图是虚拟的表，继承于一个或多个表，各个数据项和列的集合，方便查看和管理。<br><strong>对试图的操作，改变原始数据，即表中的数据</strong>。   <h3 id="域"><a href="#域" class="headerlink" title="域"></a>域</h3>即为列的可取值的集合，类似于定义域。若不同，给出提示或拒绝执行。   <h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3>约束是限制数据的。有七种。<br>断言，域，检查约束，外键约束，主键约束，所需的约束，唯一性约束等。   <h3 id="数据库定义语言"><a href="#数据库定义语言" class="headerlink" title="数据库定义语言"></a>数据库定义语言</h3>alter，create,drop,grant   <h3 id="数据库操作语言"><a href="#数据库操作语言" class="headerlink" title="数据库操作语言"></a>数据库操作语言</h3>Insert into,select from,update,delete from   <h3 id="数据库控制语言"><a href="#数据库控制语言" class="headerlink" title="数据库控制语言"></a>数据库控制语言</h3>commit（永久更新），rollback（撤销操作），grant（授权），revoke（收回授权）   <h3 id="数据库事务处理"><a href="#数据库事务处理" class="headerlink" title="数据库事务处理"></a>数据库事务处理</h3>为了数据库安全和完整考虑的，一般在编程语言中实现。   <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span> <span class="keyword">transaction</span></span><br><span class="line">.</span><br><span class="line">.<span class="comment">----------------------------&gt;rollback(撤销所有操作)</span></span><br><span class="line">.</span><br><span class="line"><span class="keyword">save</span> <span class="keyword">transaction</span>（保存更新）</span><br><span class="line">.</span><br><span class="line">.<span class="comment">----------------------------&gt;rollback(返回到sava transaction)</span></span><br><span class="line">.</span><br><span class="line"><span class="keyword">commit</span>(永久更新操作)</span><br></pre></td></tr></table></figure>
+        <h2 id="1、前期准备工作。"><a href="#1、前期准备工作。" class="headerlink" title="1、前期准备工作。"></a>1、前期准备工作。</h2><p>1 mysql下载与安装。下面的教齐全。<br>(<a href="https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/8cdccae946133f315513cd6a.html</a>)<br>配置好，并启动服务之后，便可以开始操作。<br><strong>而图形化的界面更方便操作，所以，安装图形化操作界面</strong><br><em>navicat下载位置</em><br>(<a href="http://www.cr173.com/soft/38153.html" target="_blank" rel="noopener">http://www.cr173.com/soft/38153.html</a>)<br>建立与本地数据库的连接，开始操作。 </p>
+<h2 id="图形化操作很方便，在这里说命令行操作"><a href="#图形化操作很方便，在这里说命令行操作" class="headerlink" title="图形化操作很方便，在这里说命令行操作"></a>图形化操作很方便，在这里说命令行操作</h2><h3 id="1-创建一个模式和删除一个模式"><a href="#1-创建一个模式和删除一个模式" class="headerlink" title="1. 创建一个模式和删除一个模式"></a>1. 创建一个模式和删除一个模式</h3><ol>
+<li>模式相当于一个总的容器，在里面建立表。    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create schema  &quot;模式名&quot; authorization  &lt;用户名&gt;;</span><br><span class="line"># create schema &quot;test&quot; authorzation MA;</span><br><span class="line"># 为MA创建一个“test”的模式；</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h2 id="语句的使用"><a href="#语句的使用" class="headerlink" title="语句的使用"></a>语句的使用</h2><h3 id="使用alter-table-语句"><a href="#使用alter-table-语句" class="headerlink" title="使用alter table 语句"></a>使用alter table 语句</h3><ul>
-<li>添加列<br><code>alter table &lt;表名&gt; add column &lt;列名&gt; &lt;数据类型&gt; &lt;省略值&gt;</code>   </li>
-<li>删除列<br><code>alter table &lt;表名&gt; drop column &lt;列名&gt;</code>   </li>
-<li>改变主键和外键<br><code>alter table &lt;表名&gt; add constraint &lt;键名&gt; primary key (要成为主键的列)</code><br><code>alter table &lt;表名&gt; drop constraint &lt;键名&gt;</code>   <h3 id="使用update语句"><a href="#使用update语句" class="headerlink" title="使用update语句"></a>使用update语句</h3></li>
-<li>改变列值<br><code>update &lt;tablename&gt; set &lt;列名&gt; where &lt;条件&gt;</code>   <h3 id="授权语句"><a href="#授权语句" class="headerlink" title="授权语句"></a>授权语句</h3><code>grant &lt;权限&gt;/select/update/delete &lt;列名&gt;，&lt;列名&gt; on &lt;tablename&gt; to &lt;uesr&gt;</code>   </li>
-</ul>
-<p><code>revoke &lt;权限&gt; on &lt;tablename&gt; from user</code>   </p>
+<p>模式实际上创建了一个命名空间，然后可以创建模式的对象(表，视图)。<br>/* 还不是很懂，待完善   </p>
+<ol>
+<li>删除一个模式    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">drop schema &quot;模式名&quot; &lt;cascade|restrict&gt;;</span><br><span class="line"># drop scheme &quot;test&quot; cascade;</span><br><span class="line"># 或者drop schema MA cascade;</span><br><span class="line"># 删除了一个MA模式，连同其下面的对象；</span><br><span class="line"># cascade 强制删除一个模式，连同下面的对象。</span><br><span class="line"># restrict 若模式下面有对象，则拒绝删除。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="2-基本表的定义、删除、修改"><a href="#2-基本表的定义、删除、修改" class="headerlink" title="2. 基本表的定义、删除、修改"></a>2. 基本表的定义、删除、修改</h3><p><strong>当创建了一个模式之后，就可以在其中定义对象了</strong>   </p>
+<ol>
+<li><p>创建一个基本表   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">create table &lt;表名&gt; (&lt;列名&gt; &lt;数据类型&gt; &lt;约束条件&gt;，...,);</span><br><span class="line">#  约束条件是可选的;</span><br><span class="line"># 以逗号分隔，可以创建多个列名；   </span><br><span class="line"># create table stu (name varchar[20],mobile varchar[11]);</span><br><span class="line"># 这便创建一个stu 的表;</span><br><span class="line"># 至于数据完整性约束以后再讲。</span><br><span class="line">定义 </span><br><span class="line">    数据完整性用于保证数据库中数据的正确性、一致性和可靠性。 </span><br><span class="line">#类型 </span><br><span class="line"> 实体完整性(Entity Integrity) </span><br><span class="line"> 域完整性(Domain Integrity) </span><br><span class="line"> 参照完整性(Referential Integrity) </span><br><span class="line"> 用户定义完整性(User-defined Integrity)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改基本表   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;表名&gt; [add &lt;列名&gt; &lt;数据类型&gt; &lt;约束条件&gt; /*增加一列*/];</span><br><span class="line">                   [drop &lt;列名&gt; &lt;数据类型&gt; /*修改原来的列，包括定义，数据类型*/];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除基本表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table &lt;表名&gt; [restirct|cascade];</span><br><span class="line"># 用法和上面删除模式的一样;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="数据查询"><a href="#数据查询" class="headerlink" title="数据查询"></a>数据查询</h3><p><strong>数据查询可谓是数据库的核心操作</strong>   </p>
+<ol>
+<li>单表的查询   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select &lt;要查询的项/*可以有多个,也可以直接一个“*”号，表示查询全部的列*/&gt;</span><br><span class="line">from &lt;表名/*从那个表查询*/&gt;</span><br><span class="line">where &lt;要查询的条件表达式&gt;/*可选的*/;</span><br><span class="line"># 查询可以写一篇博客，不详细赘述。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以参见见这篇博客<br>(<a href="https://www.cnblogs.com/sunada2005/p/3411873.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunada2005/p/3411873.html</a>)   </p>
+<h3 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h3><ol>
+<li><p>插入数据   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">insert</span><br><span class="line">into  &lt;表名&gt; (列1，列2.../*可选的，可以没有这条*/)</span><br><span class="line">values(数据，数据);</span><br><span class="line"># 注意：</span><br><span class="line">#     当表名后面的列名不填时，values必须包括表的所有属性列</span><br><span class="line">#     当写了列名之后，数据属性就要与列名一一对应</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">update &lt;表名&gt;</span><br><span class="line">set &lt;列名&gt;=&lt;表达式&gt;</span><br><span class="line">where &lt;条件&gt;;</span><br><span class="line"># updata stu</span><br><span class="line"># set mobile=13595442985</span><br><span class="line"># where name=&apos;wang&apos;;</span><br><span class="line"># 修改wang的mobile为1351254651</span><br><span class="line"># 条件都是可嵌套的或者可选的</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> from &lt;表名&gt;</span><br><span class="line">where &lt;条件&gt;;</span><br><span class="line"><span class="meta"># delete from stu</span></span><br><span class="line"># where name='wang'</span><br><span class="line"># 把wang所有信息都删除.</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong><em>基本操作就这么多，需要多练习，学习</em></strong></p>
 
       
     </div>
@@ -388,8 +400,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/05/C常见错误和处理/" rel="next" title="C语言新手错误">
-                <i class="fa fa-chevron-left"></i> C语言新手错误
+              <a href="/2018/06/27/数据库再理解/" rel="next" title="数据库再理解">
+                <i class="fa fa-chevron-left"></i> 数据库再理解
               </a>
             
           </div>
@@ -398,7 +410,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/06/数据库的主键&外键/" rel="prev" title="数据库的主键&外键">
+              <a href="/2018/06/27/数据库的主键&外键/" rel="prev" title="数据库的主键&外键">
                 数据库的主键&外键 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -507,7 +519,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -518,7 +530,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -529,7 +541,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">68</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -578,7 +590,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解数据库的定义"><span class="nav-number">1.</span> <span class="nav-text">理解数据库的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解平面文件"><span class="nav-number">2.</span> <span class="nav-text">理解平面文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件和数据库的差别"><span class="nav-number">3.</span> <span class="nav-text">文件和数据库的差别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件的管理方式"><span class="nav-number">3.1.</span> <span class="nav-text">文件的管理方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库由层次模型-gt-网络模型-gt-关系模型"><span class="nav-number">3.2.</span> <span class="nav-text">数据库由层次模型 -&gt; 网络模型 -&gt; 关系模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库架构"><span class="nav-number">3.3.</span> <span class="nav-text">数据库架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表的组成"><span class="nav-number">3.4.</span> <span class="nav-text">表的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于表创建视图"><span class="nav-number">3.5.</span> <span class="nav-text">基于表创建视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#域"><span class="nav-number">3.6.</span> <span class="nav-text">域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#约束"><span class="nav-number">3.7.</span> <span class="nav-text">约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库定义语言"><span class="nav-number">3.8.</span> <span class="nav-text">数据库定义语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库操作语言"><span class="nav-number">3.9.</span> <span class="nav-text">数据库操作语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库控制语言"><span class="nav-number">3.10.</span> <span class="nav-text">数据库控制语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库事务处理"><span class="nav-number">3.11.</span> <span class="nav-text">数据库事务处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语句的使用"><span class="nav-number">4.</span> <span class="nav-text">语句的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用alter-table-语句"><span class="nav-number">4.1.</span> <span class="nav-text">使用alter table 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用update语句"><span class="nav-number">4.2.</span> <span class="nav-text">使用update语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#授权语句"><span class="nav-number">4.3.</span> <span class="nav-text">授权语句</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、前期准备工作。"><span class="nav-number">1.</span> <span class="nav-text">1、前期准备工作。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图形化操作很方便，在这里说命令行操作"><span class="nav-number">2.</span> <span class="nav-text">图形化操作很方便，在这里说命令行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建一个模式和删除一个模式"><span class="nav-number">2.1.</span> <span class="nav-text">1. 创建一个模式和删除一个模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基本表的定义、删除、修改"><span class="nav-number">2.2.</span> <span class="nav-text">2. 基本表的定义、删除、修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据查询"><span class="nav-number">2.3.</span> <span class="nav-text">数据查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据操作"><span class="nav-number">2.4.</span> <span class="nav-text">数据操作</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -598,7 +610,7 @@ var jiathis_config={
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
