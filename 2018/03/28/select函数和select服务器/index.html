@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="网络编程,select函数," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="I/O模型Linux把所有的外部设备都看做文件，所以，对设备的操作，机等同于对文件的操作，每打开一个文件，就会返回一个对应的文件描述符。 每一个文件描述符I/O操作，通常是这样 1.等待数据准备好 2.从内核空间复制数据到进程空间 根据处理的过程，将I/O分为一下几种模型  阻塞式I/O 非阻塞式I/O I/O复用(select&amp;amp;poll属于这种方式) 信号驱动I/O 异步I/O  1.阻">
+<meta name="keywords" content="网络编程,select函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="select函数和select服务器">
+<meta property="og:url" content="http://yoursite.com/2018/03/28/select函数和select服务器/index.html">
+<meta property="og:site_name" content="忧漠的博客">
+<meta property="og:description" content="I/O模型Linux把所有的外部设备都看做文件，所以，对设备的操作，机等同于对文件的操作，每打开一个文件，就会返回一个对应的文件描述符。 每一个文件描述符I/O操作，通常是这样 1.等待数据准备好 2.从内核空间复制数据到进程空间 根据处理的过程，将I/O分为一下几种模型  阻塞式I/O 非阻塞式I/O I/O复用(select&amp;amp;poll属于这种方式) 信号驱动I/O 异步I/O  1.阻">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-28T15:27:21.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="select函数和select服务器">
+<meta name="twitter:description" content="I/O模型Linux把所有的外部设备都看做文件，所以，对设备的操作，机等同于对文件的操作，每打开一个文件，就会返回一个对应的文件描述符。 每一个文件描述符I/O操作，通常是这样 1.等待数据准备好 2.从内核空间复制数据到进程空间 根据处理的过程，将I/O分为一下几种模型  阻塞式I/O 非阻塞式I/O I/O复用(select&amp;amp;poll属于这种方式) 信号驱动I/O 异步I/O  1.阻">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/28/select函数和select服务器/"/>
+
+
+
+
+
+  <title>select函数和select服务器 | 忧漠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">忧漠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">总有一个舞台属于你</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/28/select函数和select服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Youmo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/32959859?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="忧漠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">select函数和select服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-28T00:00:00+08:00">
+                2018-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="I-O模型"><a href="#I-O模型" class="headerlink" title="I/O模型"></a><strong>I/O</strong>模型</h1><p>Linux把所有的外部设备都看做文件，所以，对设备的操作，机等同于对文件的操作，每打开一个文件，就会返回一个对应的文件描述符。</p>
+<p>每一个文件描述符I/O操作，通常是这样</p>
+<p>1.等待数据准备好</p>
+<p>2.从内核空间复制数据到进程空间</p>
+<p>根据处理的过程，将I/O分为一下几种模型</p>
+<ul>
+<li>阻塞式I/O</li>
+<li>非阻塞式I/O</li>
+<li>I/O复用(select&amp;poll属于这种方式)</li>
+<li>信号驱动I/O</li>
+<li>异步I/O</li>
+</ul>
+<p><strong>1.阻塞式I/O</strong></p>
+<p>在等待数据准备好的时候，进程一直等待，直到数据准备好，将数据复制到进程缓冲区，然后，进程开始处理。</p>
+<p><strong>2.非阻塞式I/O</strong></p>
+<p>当数据没有准备好的时候，内核会给进程返回一个错误，而进程不会阻塞。</p>
+<p><strong>3.I/O复用</strong></p>
+<p>select&amp;poll可以同时监控多个文件描述符(一般为1024个)，每当有一个数据准备好的时候，select就会返回，接着，就可以从缓冲区中，将数据拿出来处理。其特点是，单线程的情况下，可以处理多个I/O。</p>
+<p><strong>4.信号驱动I/O</strong></p>
+<p>通过系统调用 <code>sigaction</code> 执行一个信号处理函数（非阻塞，立即返回）。当数据就绪时，会为该进程生成一个 SIGIO 信号，通过信号回调通知应用程序读取数据。</p>
+<p><strong>5.异步I/O</strong></p>
+<p>告知内核启动某个事件，并让内核在整个操作完成后（包括将数据从内核复制到用户自己的缓冲区）通知我们。</p>
+<h1 id="select-作用和操作"><a href="#select-作用和操作" class="headerlink" title="select()作用和操作"></a>select()作用和操作</h1><p>select()原型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> maxfdp, fd_set *readset, fd_set *writeset, fd_set *exceptset,struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>1.maxfdp:</strong></p>
+<p>最大文件描述符+1。Linux描述符从0开始。<code>0：stdio</code>，<code>1：stdout</code>,<code>2:stderr</code>,所以，其他文件描述符从3开始，对于select来说，其能最大监视的文件描述符大小为<strong><em>1024</em></strong>。</p>
+<p>因为，select是对所有监视的文件描述符进行扫描，如果有描述符（设备）就绪，则置位。那么，就好理解了，select监视最大1024个，也就是0-1023，则，将值设置为1024，就是最大的。</p>
+<p><strong>2.readset, writeset, excptset</strong></p>
+<p>分别为，可读、可写、异常的集合。select会去检查集合中的值，如果有设备就绪（读，写，异常），则会将对应的值置位，然后，select返回，唤醒进程。后续就可以去检查集合中的值有没有被置位。</p>
+<p><strong>3.timeout</strong></p>
+<p>告诉内核，返回的时候，等待任何一个描述符就绪花多长时间。</p>
+<ol>
+<li>NULL。永远等待，直到有一个描述符就绪的时候。</li>
+<li>常数。即等待这样一个时间后，不管有没有描述符就绪，都返回，</li>
+<li>0。不等待，检查完后，立即返回。</li>
+</ol>
+<h2 id="对set的操作"><a href="#对set的操作" class="headerlink" title="对set的操作"></a>对set的操作</h2><ol>
+<li>FD_ZERO(&amp;fd_set)，将所有位清0。</li>
+<li>FD_SET(fd,&amp;fdset)，将某一位置位1.</li>
+<li>FD_CLI(fd,&amp;fd_set)，将某一位置0。</li>
+<li>FD_ISSET(fd,&amp;fd_set)，判断某个描述符是否被置位1，即是否有数据准备好。</li>
+</ol>
+<h2 id="select的调用过程"><a href="#select的调用过程" class="headerlink" title="select的调用过程"></a>select的调用过程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">（1）使用copy_from_user从用户空间拷贝fd_set到内核空间</span><br><span class="line">（2）注册回调函数__pollwait</span><br><span class="line">（3）遍历所有fd，调用其对应的poll方法（对于socket，这个poll方法是sock_poll，sock_poll根据情况会调用到		tcp_poll,udp_poll或者datagram_poll）</span><br><span class="line">（4）以tcp_poll为例，其核心实现就是__pollwait，也就是上面注册的回调函数。</span><br><span class="line">（5）__pollwait的主要工作就是把current（当前进程）挂到设备的等待队列中，不同的设备有不同的等待队列，对于		tcp_poll来说，其等待队列是sk-&gt;sk_sleep（注意把进程挂到等待队列中并不代表进程已经睡眠了）。在设备收到一条消	   息（网络设备）或填写完文件数据（磁盘设备）后，会唤醒设备等待队列上睡眠的进程，这时current便被唤醒了。</span><br><span class="line">（6）poll方法返回时会返回一个描述读写操作是否就绪的mask掩码，根据这个mask掩码给fd_set赋值。</span><br><span class="line">（7）如果遍历完所有的fd，还没有返回一个可读写的mask掩码，则会调用schedule_timeout时调用select的进程（也就是	current）进入睡眠。当设备驱动发生自身资源可读写后，会唤醒其等待队列上睡眠的进程。如果超过一定的超时时间	      （schedule_timeout指定），还是没人唤醒，则调用select的进程会重新被唤醒获得CPU，进而重新遍历fd，判断有没有     就绪的fd。</span><br><span class="line">（8）把fd_set从内核空间拷贝到用户空间。</span><br></pre></td></tr></table></figure>
+<p>select缺点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）每次调用select，都需要把fd集合从用户态拷贝到内核态，这个开销在fd很多时会很大</span><br><span class="line">（2）同时每次调用select都需要在内核遍历传递进来的所有fd，这个开销在fd很多时也很大</span><br><span class="line">（3）select支持的文件描述符数量太小了，默认是1024</span><br></pre></td></tr></table></figure>
+<p><a href="https://juejin.im/post/59f9c6d66fb9a0450e75713f#heading-0" target="_blank" rel="noopener">https://juejin.im/post/59f9c6d66fb9a0450e75713f#heading-0</a></p>
+<h1 id="select版服务器"><a href="#select版服务器" class="headerlink" title="select版服务器"></a>select版服务器</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/ioctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PORT 10001</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RT_ERR (-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RT_OK 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVERIP <span class="meta-string">"127.0.0.1"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LISTEN_QUEUE 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUFFER_SIZE 1024</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v;</span><br><span class="line">    <span class="keyword">int</span> listenfd, connsockfd;</span><br><span class="line">    <span class="keyword">char</span> readbuf[BUFFER_SIZE];</span><br><span class="line">    listenfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span>(listenfd &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"socket function failed.\n"</span>);</span><br><span class="line">            <span class="built_in">exit</span>(RT_ERR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span>  <span class="title">sockaddr_in</span> <span class="title">serveraddr</span>, <span class="title">clientaddr</span>;</span></span><br><span class="line">    bzero(&amp;serveraddr, <span class="keyword">sizeof</span>(serveraddr));</span><br><span class="line">    serveraddr.sin_family = AF_INET;</span><br><span class="line">    serveraddr.sin_port = htons(PORT);</span><br><span class="line">    serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> client_len = <span class="keyword">sizeof</span>(struct sockaddr_in);</span><br><span class="line">    <span class="keyword">if</span>(bind(listenfd, (struct sockaddr *)&amp;serveraddr, <span class="keyword">sizeof</span>(struct sockaddr_in)) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"bind function failed.\n"</span>);</span><br><span class="line">            close(listenfd);</span><br><span class="line">            <span class="built_in">exit</span>(RT_ERR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(listen(listenfd,LISTEN_QUEUE) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"listen function failed.\n"</span>);</span><br><span class="line">            close(listenfd);</span><br><span class="line">            <span class="built_in">exit</span>(RT_ERR);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"The server IP is %s, listen on port: %d\n"</span>,inet_ntoa(serveraddr.sin_addr), ntohs(serveraddr.sin_port));</span><br><span class="line"></span><br><span class="line">    fd_set readfdset;<span class="comment">//可读集合</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        FD_ZERO(&amp;readfdset);<span class="comment">//将集合所有位清空</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> fd:v)<span class="comment">//将每个客户端都置位1</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//为什么要这么做</span></span><br><span class="line">            <span class="comment">//当有客户端加入的时候，如果立即FD_SET的话，就意味着，他已经有数据了，但是，万一没有，逻辑错误。</span></span><br><span class="line">            FD_SET(fd, &amp;readfdset);</span><br><span class="line">        &#125;</span><br><span class="line">        FD_SET(listenfd, &amp;readfdset);<span class="comment">//将监听套接字置位1</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">对于select函数，传入的参数，在检查的时候，会进行修改，所以，当select返回的时候，readset就存的是，可以读的集合</span></span><br><span class="line"><span class="comment">select检查的时候，只会去检查那些被置位1的套接字，如果不可读/写，则置位0</span></span><br><span class="line"><span class="comment">所以，每一次循环的时候，都得将set中，我们希望检测的位置1。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">        <span class="keyword">if</span>(!(select(FD_SETSIZE, &amp;readfdset, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>) &gt; <span class="number">0</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"select function failed.\n"</span>);</span><br><span class="line">            close(listenfd);</span><br><span class="line">            <span class="built_in">exit</span>(RT_ERR);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(FD_ISSET(listenfd, &amp;readfdset))</span><br><span class="line">        &#123;</span><br><span class="line"><span class="comment">//            fprintf(stdout, "fd is %d, listenfd is %d\n", fd, listenfd);</span></span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;<span class="string">"new client"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">if</span>((connsockfd = accept(listenfd, (struct sockaddr*)&amp;clientaddr, &amp;client_len)) &lt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"accept function failed.\n"</span>);</span><br><span class="line">                <span class="built_in">exit</span>(RT_ERR);</span><br><span class="line">            &#125;</span><br><span class="line">            v.push_back(connsockfd);<span class="comment">//将客户端加入数组中，遍历时，不需要从0-1024遍历</span></span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"It is a new session from IP:%sport:%d\n"</span>,inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> fd=listenfd+<span class="number">1</span>;fd&lt;FD_SETSIZE;fd++)</span><br><span class="line">         &#123;</span><br><span class="line">             <span class="keyword">if</span>(FD_ISSET(fd, &amp;readfdset))</span><br><span class="line">             &#123;</span><br><span class="line">                 <span class="keyword">if</span>(recv(fd, readbuf, BUFFER_SIZE, <span class="number">0</span>) &gt; <span class="number">0</span>)</span><br><span class="line">                 &#123;</span><br><span class="line">                     <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"recv message: %s\n"</span>, readbuf);</span><br><span class="line">                 &#125;</span><br><span class="line">                 <span class="keyword">else</span></span><br><span class="line">                 &#123;</span><br><span class="line">                     FD_CLR(fd,&amp;readfdset);</span><br><span class="line">                     <span class="keyword">auto</span> t=<span class="built_in">std</span>::find(v.begin(),v.end(),fd);</span><br><span class="line">                     v.erase(t);</span><br><span class="line">                     close(fd);</span><br><span class="line">                     <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"client socket %d close\n"</span>, fd);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">        &#125;<span class="comment">//end of for</span></span><br><span class="line">    &#125;<span class="comment">//end of while</span></span><br><span class="line">    close(listenfd);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/ioctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVERIP <span class="meta-string">"127.0.0.1"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PORT 10001</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUFFER_SIZE 512</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sockfd;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server</span>;</span></span><br><span class="line">    <span class="keyword">char</span> sendbuf[BUFFER_SIZE];</span><br><span class="line">    bzero(&amp;sendbuf,<span class="keyword">sizeof</span>(sendbuf));</span><br><span class="line">    sockfd = socket(AF_INET,SOCK_STREAM,<span class="number">0</span>);</span><br><span class="line">    bzero(&amp;server,<span class="keyword">sizeof</span>(server));</span><br><span class="line">    server.sin_family = AF_INET;</span><br><span class="line">    server.sin_port = htons(PORT);</span><br><span class="line">    server.sin_addr.s_addr = inet_addr(SERVERIP);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(connect(sockfd,(struct sockaddr *)&amp;server,<span class="keyword">sizeof</span>(struct sockaddr)) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">            perror(<span class="string">"connect failed.\n"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        fgets(sendbuf, <span class="keyword">sizeof</span>(sendbuf), <span class="built_in">stdin</span>);</span><br><span class="line">        send(sockfd, sendbuf, <span class="keyword">sizeof</span>(sendbuf), <span class="number">0</span>);</span><br><span class="line">        bzero(&amp;sendbuf,<span class="keyword">sizeof</span>(sendbuf));</span><br><span class="line">    &#125;</span><br><span class="line">    close(sockfd);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>参考</strong></p>
+<p><a href="https://my.oschina.net/fileoptions/blog/911091#h1_2" target="_blank" rel="noopener">https://my.oschina.net/fileoptions/blog/911091#h1_2</a></p>
+<p><a href="http://www.cnblogs.com/apprentice89/archive/2013/05/09/3070051.html" target="_blank" rel="noopener">http://www.cnblogs.com/apprentice89/archive/2013/05/09/3070051.html</a></p>
+<p><a href="https://juejin.im/post/59f9c6d66fb9a0450e75713f#heading-0" target="_blank" rel="noopener">https://juejin.im/post/59f9c6d66fb9a0450e75713f#heading-0</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络编程/" rel="tag"># 网络编程</a>
+          
+            <a href="/tags/select函数/" rel="tag"># select函数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/19/Linux系统管理及系统信息/" rel="next" title="Linux系统管理及系统信息">
+                <i class="fa fa-chevron-left"></i> Linux系统管理及系统信息
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/30/C-知识点扫盲/" rel="prev" title="C++知识点扫盲">
+                C++知识点扫盲 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars3.githubusercontent.com/u/32959859?s=460&v=4"
+                alt="Youmo" />
+            
+              <p class="site-author-name" itemprop="name">Youmo</p>
+              <p class="site-description motion-element" itemprop="description">学习的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Youmo742" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1481414022@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O模型"><span class="nav-number">1.</span> <span class="nav-text">I/O模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#select-作用和操作"><span class="nav-number">2.</span> <span class="nav-text">select()作用和操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对set的操作"><span class="nav-number">2.1.</span> <span class="nav-text">对set的操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select的调用过程"><span class="nav-number">2.2.</span> <span class="nav-text">select的调用过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#select版服务器"><span class="nav-number">3.</span> <span class="nav-text">select版服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#客户端"><span class="nav-number">4.</span> <span class="nav-text">客户端</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Youmo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
