@@ -83,7 +83,7 @@
 <meta name="keywords" content="虚函数,虚指针,虚表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++虚函数">
-<meta property="og:url" content="http://yoursite.com/2018/03/19/C++虚函数/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/03/19/C++及虚函数/index.html">
 <meta property="og:site_name" content="忧漠的博客">
 <meta property="og:description" content="1.关于多态  在C++中，多态有两种形式，一个叫静态多态，一个叫动态多态。多态，就是一个接口的不同表现方式，静态多态，在程序编译的时候，就已经表现出多种形式，如函数重载。动态多态，就是在程序运行的时候，根据对象的类型，调用各自对象的方法。 2.虚函数  C++实现多态的主要方式为 继承+虚指针。虚函数的作用：当把一个函数写为虚函数的时候，就意味着，这个函数是要被子类重写的。这样的话，通过父类指针">
 <meta property="og:locale" content="zh-Hans">
@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g1hmihn6waj30qn0hfada.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g1hmpqvma9j30wu0ledmq.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g1hmuue2dhj30th0jmjx1.jpg">
-<meta property="og:updated_time" content="2019-03-28T15:27:32.000Z">
+<meta property="og:updated_time" content="2019-05-03T05:31:17.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++虚函数">
 <meta name="twitter:description" content="1.关于多态  在C++中，多态有两种形式，一个叫静态多态，一个叫动态多态。多态，就是一个接口的不同表现方式，静态多态，在程序编译的时候，就已经表现出多种形式，如函数重载。动态多态，就是在程序运行的时候，根据对象的类型，调用各自对象的方法。 2.虚函数  C++实现多态的主要方式为 继承+虚指针。虚函数的作用：当把一个函数写为虚函数的时候，就意味着，这个函数是要被子类重写的。这样的话，通过父类指针">
@@ -127,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/19/C++虚函数/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/19/C++及虚函数/"/>
 
 
 
@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/C++虚函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/C++及虚函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Youmo">
@@ -322,7 +322,18 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
+                  <a href="/categories/HelloOffer/" itemprop="url" rel="index">
+                    <span itemprop="name">HelloOffer</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HelloOffer/C/" itemprop="url" rel="index">
                     <span itemprop="name">C++</span>
                   </a>
                 </span>
@@ -386,10 +397,10 @@
 <h2 id="5-关于虚构造函数和虚析构函数"><a href="#5-关于虚构造函数和虚析构函数" class="headerlink" title="5.关于虚构造函数和虚析构函数"></a>5.关于虚构造函数和虚析构函数</h2><ul>
 <li><p>1.构造函数，不能是虚函数。</p>
 <p>①从存储空间角度</p>
-<pre><code>虚函数对应一个vtable，这大家都知道，可是这个vtable其实是存储在对象的内存空间的。问题出来了，如果构造函数是虚的，就需要通过 vtable来调用，可是对象还没有实例化，也就是内存空间还没有，无法找到vtable，所以构造函数不能是虚函数。
-</code></pre><p>②从使用角度</p>
-<pre><code>虚函数主要用于在信息不全的情况下，能使重载的函数得到对应的调用。构造函数本身就是要初始化实例，那使用虚函数也没有实际意义呀。所以构造函数没有必要是虚函数。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">虚函数的作用在于通过父类的指针或者引用来调用它的时候能够变成调用子类的那个成员函数。而构造函数是在创建对象时自动调用的，不可能通过父类的指针或者引用去调用，因此也就规定构造函数不能是虚函数。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">虚函数对应一个vtable，这大家都知道，可是这个vtable其实是存储在对象的内存空间的。问题出来了，如果构造函数是虚的，就需要通过 vtable来调用，可是对象还没有实例化，也就是内存空间还没有，无法找到vtable，所以构造函数不能是虚函数。</span><br></pre></td></tr></table></figure>
+<p>②从使用角度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">虚函数主要用于在信息不全的情况下，能使重载的函数得到对应的调用。构造函数本身就是要初始化实例，那使用虚函数也没有实际意义呀。所以构造函数没有必要是虚函数。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">虚函数的作用在于通过父类的指针或者引用来调用它的时候能够变成调用子类的那个成员函数。而构造函数是在创建对象时自动调用的，不可能通过父类的指针或者引用去调用，因此也就规定构造函数不能是虚函数。</span><br></pre></td></tr></table></figure>
 <p>③构造函数不需要是虚函数，也不允许是虚函数</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">因为创建一个对象时我们总是要明确指定对象的类型，尽管我们可能通过实验室的基类的指针或引用去访问它。但析构却不一定，我们往往通过基类的指针来销毁对象。这时候如果析构函数不是虚函数，就不能正确识别对象类型从而不能正确调用析构函数。</span><br></pre></td></tr></table></figure>
 <p>④从实现上看，vbtl在构造函数调用后才建立，因而构造函数不可能成为虚函数  </p>
@@ -446,8 +457,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/19/C++及虚函数/" rel="next" title="C++虚函数">
-                <i class="fa fa-chevron-left"></i> C++虚函数
+              <a href="/2018/03/18/权限及权限管理/" rel="next" title="权限及权限管理">
+                <i class="fa fa-chevron-left"></i> 权限及权限管理
               </a>
             
           </div>
@@ -456,8 +467,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/19/Linux系统管理及系统信息/" rel="prev" title="Linux系统管理及系统信息">
-                Linux系统管理及系统信息 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/19/C++虚函数/" rel="prev" title="C++虚函数">
+                C++虚函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
