@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="多重继承,虚继承," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="继承和虚函数 实现多态的方式，就是虚表+虚指针，但是，这个虚表和虚指针到底是怎么做的，这两个东西，是存在于哪的？  虚表，存储的是虚函数的地址，所以，它类似于一个数组的东西，每一个包含虚函数的类(包括继承自父类，没有重写或者已经重写的虚函数)，编译器都会为其生成一个虚表。 虚指针，叫虚指针，其实，就是一个指针，指向虚表，也就说它存放虚表的地址，存放在对象内存的前(4/8)个字节，既然是个地址，而指">
+<meta name="keywords" content="多重继承,虚继承">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++菱形继承和虚继承1">
+<meta property="og:url" content="http://yoursite.com/2019/05/06/2019-05-06-C++菱形继承和虚继承/index.html">
+<meta property="og:site_name" content="忧漠的博客">
+<meta property="og:description" content="继承和虚函数 实现多态的方式，就是虚表+虚指针，但是，这个虚表和虚指针到底是怎么做的，这两个东西，是存在于哪的？  虚表，存储的是虚函数的地址，所以，它类似于一个数组的东西，每一个包含虚函数的类(包括继承自父类，没有重写或者已经重写的虚函数)，编译器都会为其生成一个虚表。 虚指针，叫虚指针，其实，就是一个指针，指向虚表，也就说它存放虚表的地址，存放在对象内存的前(4/8)个字节，既然是个地址，而指">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g2rmxczi7oj30hu05v74t.jpg">
+<meta property="og:image" content="data:image/png;base64,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">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g2rf0xd90vj30mr083t9d.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g2revx1lmtj30mq08pjs1.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g2rvpfgu2kj30vc0cogmz.jpg">
+<meta property="og:updated_time" content="2019-05-06T13:15:06.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++菱形继承和虚继承1">
+<meta name="twitter:description" content="继承和虚函数 实现多态的方式，就是虚表+虚指针，但是，这个虚表和虚指针到底是怎么做的，这两个东西，是存在于哪的？  虚表，存储的是虚函数的地址，所以，它类似于一个数组的东西，每一个包含虚函数的类(包括继承自父类，没有重写或者已经重写的虚函数)，编译器都会为其生成一个虚表。 虚指针，叫虚指针，其实，就是一个指针，指向虚表，也就说它存放虚表的地址，存放在对象内存的前(4/8)个字节，既然是个地址，而指">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/00746wNnly1g2rmxczi7oj30hu05v74t.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/06/2019-05-06-C++菱形继承和虚继承/"/>
+
+
+
+
+
+  <title>C++菱形继承和虚继承1 | 忧漠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">忧漠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">总有一个舞台属于你</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/06/2019-05-06-C++菱形继承和虚继承/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Youmo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/32959859?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="忧漠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++菱形继承和虚继承1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-06T00:00:00+08:00">
+                2019-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HelloOffer/" itemprop="url" rel="index">
+                    <span itemprop="name">HelloOffer</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HelloOffer/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="继承和虚函数"><a href="#继承和虚函数" class="headerlink" title="继承和虚函数"></a>继承和虚函数</h2><ul>
+<li><p>实现多态的方式，就是虚表+虚指针，但是，这个虚表和虚指针到底是怎么做的，这两个东西，是存在于哪的？</p>
+<ul>
+<li>虚表，存储的是虚函数的地址，所以，它类似于一个数组的东西，每一个包含虚函数的类(包括继承自父类，没有重写或者已经重写的虚函数)，编译器都会为其生成一个虚表。</li>
+<li>虚指针，叫虚指针，其实，就是一个指针，指向虚表，也就说它存放虚表的地址，存放在对象内存的前(4/8)个字节，既然是个地址，而指针的大小，就是其可寻址的范围的大小，所以，这个地址，也被称为虚指针。</li>
+<li>在程序运行的时候，动态的决定这个虚指针到底是指向子类的虚表还是父类的虚表。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	base() &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"base constructure"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"This is base "</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base1</span> :</span><span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	base1() &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"base1 constructure"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	 <span class="comment">// virtual void print()&#123;</span></span><br><span class="line">	 <span class="comment">//    cout&lt;&lt;"This is base1"&lt;&lt;endl;</span></span><br><span class="line">	 <span class="comment">//&#125;</span></span><br><span class="line">	 <span class="comment">//virtual void hello()</span></span><br><span class="line">	 <span class="comment">//&#123;</span></span><br><span class="line"></span><br><span class="line">	 <span class="comment">//&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base2</span> :</span><span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	base2() &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"base2 constructure"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	 <span class="comment">//virtual void print()&#123;</span></span><br><span class="line">	 <span class="comment">//    cout&lt;&lt;"This is base2"&lt;&lt;endl;</span></span><br><span class="line">	 <span class="comment">//&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	base b;		<span class="comment">//c9 14 a9 00 00 00 00 00 </span></span><br><span class="line">	base1 b1;	<span class="comment">//c9 14 a9 00 00 00 00 00</span></span><br><span class="line">	base2 b2;	<span class="comment">//c9 14 a9 00 00 00 00 00</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(child) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(base) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虚表地址就存放在对象内存的前几个字节，对于上面这个程序，通过调试，得到虚表地址如上述注释。</p>
+<p>可以得出，当子类没有对父类的虚函数做任何改变的时候，子类和父类共用一个虚表。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	base() &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"base constructure"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"This is base "</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base1</span> :</span><span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	base1() &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"base1 constructure"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	 <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">	     <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base1"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="comment">//virtual void hello()</span></span><br><span class="line">	 <span class="comment">//&#123;</span></span><br><span class="line"></span><br><span class="line">	 <span class="comment">//&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base2</span> :</span><span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	base2() &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"base2 constructure"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	 <span class="comment">//virtual void print()&#123;</span></span><br><span class="line">	 <span class="comment">//    cout&lt;&lt;"This is base2"&lt;&lt;endl;</span></span><br><span class="line">	 <span class="comment">//&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	base b;   <span class="comment">// c9 14 3f 01 00 00 00 00</span></span><br><span class="line">	base1 b1; <span class="comment">// 05 15 3f 01 00 00 00 00</span></span><br><span class="line">	base2 b2; <span class="comment">// c9 14 3f 01 00 00 00 00</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(child) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(base) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>  由于base2没有对base做任何改变，所以，它和父类共用一个虚表。</p>
+<p>而base1重写了base的print函数，所以，它使用了它自己的虚表。</p>
+<p><img src="http://ww1.sinaimg.cn/large/00746wNnly1g2rmxczi7oj30hu05v74t.jpg" alt=""></p>
+<h2 id="C-多重继承"><a href="#C-多重继承" class="headerlink" title="C++多重继承"></a>C++多重继承</h2><ul>
+<li><p>C++允许多重继承，继承的顺序按照写的顺序开始执行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base1</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base1()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base1"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base2</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base2()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base2"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">child</span>:</span><span class="keyword">public</span> base1,<span class="keyword">public</span> base2&#123;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//先输出base1,然后输出base2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于继承来说，子类会将父类的所有东西拷贝一份（除静态变量，静态变量和父类共用），区别是访问权限。</p>
+</li>
+</ul>
+<h2 id="多重继承的问题"><a href="#多重继承的问题" class="headerlink" title="多重继承的问题"></a>多重继承的问题</h2><ul>
+<li><p>因为继承本就会继承父类的所有东西，然后放在自己内存空间中，这样的话</p>
+<p><img src="data:image/png;base64,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" alt=""></p>
+<p>B中，有一份A的东西,C中也有A的东西，于是，D中，就存在了两份A的东西，这样，访问A的东西的时候，就会出现歧义。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"base constructure"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base "</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base1</span>:</span><span class="keyword">public</span> base&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base1()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"base1 constructure"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// virtual void print()&#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;"This is base1"&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base2</span>:</span><span class="keyword">public</span> base&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base2()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"base2 constructure"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// virtual void print()&#123;</span></span><br><span class="line">    <span class="comment">//     cout&lt;&lt;"This is base2"&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">child</span>:</span><span class="keyword">public</span> base1,<span class="keyword">public</span> base2&#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    child *ch=<span class="keyword">new</span> child();</span><br><span class="line">    <span class="comment">// ch-&gt;print();</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(child)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(base)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/00746wNnly1g2rf0xd90vj30mr083t9d.jpg" alt=""></p>
+<p>可以看到，base确实存在了两份，一份来自于base1,一份来自于base2，而print的地址是一样的，这样的话，通过ch调用print，它根本不知道去调用哪一个print,一个简单的做法就是用作用域来规避:</p>
+<p><code>ch-&gt;base1::print()</code>,因为实际上，这两个虚表是属于base1和base2的，可以用这种方法来让编译器找到。</p>
+<p><code>ch-&gt;base::print()</code>,同样也可以。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"base constructure"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base "</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base1</span>:</span><span class="keyword">public</span> base&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base1()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"base1 constructure"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base1"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base2</span>:</span><span class="keyword">public</span> base&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    base2()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"base2 constructure"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"This is base2"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">child</span>:</span><span class="keyword">public</span> base1,<span class="keyword">public</span> base2&#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    child *ch=<span class="keyword">new</span> child();</span><br><span class="line">    ch-&gt;print();<span class="comment">//出现歧义，就算在base1和base2不重写print(),也会有歧义，因为他们两个本身，就有一份base的东西。</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(base)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//输出16,int 8字节，因为虚指针 8字节，共16字节</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(child)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//输出32，因为存在两份base,所以是32</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/00746wNnly1g2revx1lmtj30mq08pjs1.jpg" alt=""></p>
+</li>
+</ul>
+<p>这是上面代码调试的结果，可以看到，在ch中，base1和base2重写了print函数，所以，两个函数的地址不同。</p>
+<h2 id="解决多重继承出现的问题"><a href="#解决多重继承出现的问题" class="headerlink" title="解决多重继承出现的问题"></a>解决多重继承出现的问题</h2><ul>
+<li><p>解决多重继承这种继承两份的问题，C++采用了一种虚继承的方式，通过虚继承，可以使父类在子类中，无论继承多少次，保证只存在一个副本。</p>
+</li>
+<li><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"This is base"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base1</span> :</span><span class="keyword">virtual</span> <span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//void print() &#123;</span></span><br><span class="line">	<span class="comment">//		cout &lt;&lt; "This is base1" &lt;&lt; endl;</span></span><br><span class="line">	<span class="comment">//	&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">base2</span> :</span><span class="keyword">virtual</span> <span class="keyword">public</span> base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">prinhet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"This is base1"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">child</span> :</span><span class="keyword">public</span> base1,<span class="keyword">public</span> base2 &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//void print() &#123;</span></span><br><span class="line">	<span class="comment">//	cout &lt;&lt; "This is base1" &lt;&lt; endl;</span></span><br><span class="line">	<span class="comment">//&#125;</span></span><br><span class="line">	<span class="comment">//virtual void hello() &#123;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//&#125;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	base b;</span><br><span class="line">	base1 b1;</span><br><span class="line">	base2 b2;</span><br><span class="line">	child ch;</span><br><span class="line">	<span class="comment">//cout &lt;&lt;hex&lt;&lt;*((int*)(*(int*)&amp; ch)) &lt;&lt; endl;</span></span><br><span class="line">	<span class="comment">//cout &lt;&lt; ((int*)(*(int*)&amp; ch))[0] &lt;&lt; endl;</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(base) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//8</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(base1) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//12</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(base2) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//16</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(child) &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//20</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>都是这样说的，在vs调试下，我进行了观察，发现</p>
+<p><img src="http://ww1.sinaimg.cn/large/00746wNnly1g2rvpfgu2kj30vc0cogmz.jpg" alt=""></p>
+<p>在这里，base总共会有三份，其中，特殊的是，除了继承base1和base2外，还另外单独继承了一份base,还可以发现，这三个base,都是同一个，但确确实实存在了三份。</p>
+<p>还有，如果只是重写了基类的虚函数(而且，没有用virtual关键字)，自己并没有新建虚函数，则会共用基类的虚指针，使用基类的虚函数表。如果自己有虚函数(或者，用virtual关键字修饰了继承自父类的函数)，则自己会有一个虚指针，指向自己的虚表。</p>
+<p>所以，child的大小:(base1 4)+(base2 4+4)(有一个自己的虚函数，所以child多一个继承的虚指针)+(base 4+4)=20；</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多重继承/" rel="tag"># 多重继承</a>
+          
+            <a href="/tags/虚继承/" rel="tag"># 虚继承</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/01/C++拷贝构造函数相关/" rel="next" title="C++拷贝构造函数相关">
+                <i class="fa fa-chevron-left"></i> C++拷贝构造函数相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/06/2019-05-06-C++菱形继承和虚继承2/" rel="prev" title="C++菱形继承和虚继承2">
+                C++菱形继承和虚继承2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars3.githubusercontent.com/u/32959859?s=460&v=4"
+                alt="Youmo" />
+            
+              <p class="site-author-name" itemprop="name">Youmo</p>
+              <p class="site-description motion-element" itemprop="description">学习的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Youmo742" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1481414022@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承和虚函数"><span class="nav-number">1.</span> <span class="nav-text">继承和虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-多重继承"><span class="nav-number">2.</span> <span class="nav-text">C++多重继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多重继承的问题"><span class="nav-number">3.</span> <span class="nav-text">多重继承的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决多重继承出现的问题"><span class="nav-number">4.</span> <span class="nav-text">解决多重继承出现的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Youmo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
