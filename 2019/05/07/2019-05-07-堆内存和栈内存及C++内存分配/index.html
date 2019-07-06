@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="操作系统内存管理,进程内存模型,内存分配," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.现代操作系统内存管理 主流的操作系统(Windows,Linux)都采用虚拟内存管理的方式，具体说就是：页式管理、段式管理、段页式管理。 操作系统分配资源的单位是进程，所以，内存管理的过程也是以进程为单位的。  进程的地址空间 这里的地址空间指的都是虚拟地址空间。  要将进程的地址空间分为两部分：用户空间和内核空间。内核空间中存放内核的代码和数据，这个是用户空间不能随意访问的，只能通过系统调用">
+<meta name="keywords" content="操作系统内存管理,进程内存模型,内存分配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="堆内存和栈内存及C++内存分配">
+<meta property="og:url" content="http://yoursite.com/2019/05/07/2019-05-07-堆内存和栈内存及C++内存分配/index.html">
+<meta property="og:site_name" content="忧漠的博客">
+<meta property="og:description" content="1.现代操作系统内存管理 主流的操作系统(Windows,Linux)都采用虚拟内存管理的方式，具体说就是：页式管理、段式管理、段页式管理。 操作系统分配资源的单位是进程，所以，内存管理的过程也是以进程为单位的。  进程的地址空间 这里的地址空间指的都是虚拟地址空间。  要将进程的地址空间分为两部分：用户空间和内核空间。内核空间中存放内核的代码和数据，这个是用户空间不能随意访问的，只能通过系统调用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/0325/235239_CHCn_1403215.png">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1177371/7zapx2rx04.gif">
+<meta property="og:updated_time" content="2019-07-06T03:12:54.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="堆内存和栈内存及C++内存分配">
+<meta name="twitter:description" content="1.现代操作系统内存管理 主流的操作系统(Windows,Linux)都采用虚拟内存管理的方式，具体说就是：页式管理、段式管理、段页式管理。 操作系统分配资源的单位是进程，所以，内存管理的过程也是以进程为单位的。  进程的地址空间 这里的地址空间指的都是虚拟地址空间。  要将进程的地址空间分为两部分：用户空间和内核空间。内核空间中存放内核的代码和数据，这个是用户空间不能随意访问的，只能通过系统调用">
+<meta name="twitter:image" content="https://static.oschina.net/uploads/space/2017/0325/235239_CHCn_1403215.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/07/2019-05-07-堆内存和栈内存及C++内存分配/"/>
+
+
+
+
+
+  <title>堆内存和栈内存及C++内存分配 | 忧漠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">忧漠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">总有一个舞台属于你</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/07/2019-05-07-堆内存和栈内存及C++内存分配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Youmo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/32959859?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="忧漠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">堆内存和栈内存及C++内存分配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-07T00:00:00+08:00">
+                2019-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HelloOffer/" itemprop="url" rel="index">
+                    <span itemprop="name">HelloOffer</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HelloOffer/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-现代操作系统内存管理"><a href="#1-现代操作系统内存管理" class="headerlink" title="1.现代操作系统内存管理"></a>1.现代操作系统内存管理</h2><ol>
+<li>主流的操作系统(Windows,Linux)都采用虚拟内存管理的方式，具体说就是：页式管理、段式管理、段页式管理。</li>
+<li>操作系统分配资源的单位是进程，所以，内存管理的过程也是以进程为单位的。</li>
+</ol>
+<h3 id="进程的地址空间"><a href="#进程的地址空间" class="headerlink" title="进程的地址空间"></a>进程的地址空间</h3><ul>
+<li><p>这里的地址空间指的都是虚拟地址空间。</p>
+</li>
+<li><p>要将进程的地址空间分为两部分：用户空间和内核空间。内核空间中存放内核的代码和数据，这个是用户空间不能随意访问的，只能通过系统调用陷入内核空间。用户空间存放用户的代码和数据。</p>
+<p><img src="https://static.oschina.net/uploads/space/2017/0325/235239_CHCn_1403215.png" alt=""></p>
+</li>
+<li><p>在Linux32位系统下，将1G用作内核空间，3G用于用户空间。虚拟的，虚拟的，虚拟的。</p>
+</li>
+<li><p>C++典型的内存分配</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1177371/7zapx2rx04.gif" alt=""></p>
+<p>一个C++程序运行的时候，操作系统自动为其生成一个PCB，将程序的内容链接到此PCB的虚拟空间中，用户空间的内存模型刚好对应C++程序的内存。</p>
+<p>一个C程序对应的内存模型：</p>
+<ol>
+<li><strong>代码区</strong>：存放程序执行的二进制代码，只读。</li>
+<li><strong>数据区</strong>：<ol>
+<li>已初始化的静态变量和全局变量。编译时就分配好内存</li>
+<li>未初始化的静态变量和全局变量。</li>
+<li>有的系统将常量放在代码区，而有的放在数据区。</li>
+</ol>
+</li>
+<li><strong>栈区</strong>：这就是所说的栈内存，由高地址向低地址增长。</li>
+<li><strong>堆区</strong>：堆内存，由低地址向高地址增长。</li>
+</ol>
+<p>一个C++对应的内存模型</p>
+<p><strong>1.栈，</strong>就是那些由编译器在需要的时候分配，在不需要的时候自动清楚的变量的存储区。里面的变量通常是局部变量、函数参数等。<br><strong>2.堆，</strong>就是那些由new分配的内存块，他们的释放编译器不去管，由我们的应用程序去控制，一般一个new就要对应一个delete。如果程序员没有释放掉，那么在程序结束后，操作系统会自动回收。<br><strong>3.自由存储区，</strong>就是那些由malloc等分配的内存块，他和堆是十分相似的，不过它是用free来结束自己的生命的。<br><strong>4.全局/静态存储区</strong>，全局变量和静态变量被分配到同一块内存中，在以前的C语言中，全局变量又分为初始化的和未初始化的，在C++里面没有这个区分了，他们共同占用同一块内存区。<br><strong>5.常量存储区，</strong>这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改（当然，你要通过非正当手段也可以修改）</p>
+</li>
+</ul>
+<h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h3><ol>
+<li><p>栈内存分配：</p>
+<p>栈内存分配一般由编译器负责分配和释放，栈上存放的是：局部变量，函数返回地址等。</p>
+</li>
+<li><p>堆内存分配</p>
+<p>堆内存的操作，一般由使用者来操作，系统提供了操作堆内存的借口，而且，编程语言也提供了操作堆内存的方法。</p>
+<p>堆内存一般是由(malloc/free/new/delete)来操作的。</p>
+</li>
+</ol>
+<h3 id="堆内存的管理"><a href="#堆内存的管理" class="headerlink" title="堆内存的管理"></a>堆内存的管理</h3><p>堆内存由大小的限制，而且，操作不需要程序员关心，只需要确保不会栈溢出就好。</p>
+<ol>
+<li><p>申请堆内存的过程：</p>
+<p>通过malloc第一次申请内存，会触发一个缺页中断，然后陷入内核，通过调用brk系统调用，申请一片大的连续内存地址空间，放到空闲链表。然后，再执行一次刚才引起缺页中断的命令，即(malloc)。</p>
+</li>
+</ol>
+<p>假设操作系统或者一个进程已经获得了一块连续地址的内存，系统或进程在执行过程中需要利用这块内存来满足各种内存请求。由于内存请求存在动态性，即每次请求的内存大小可能不相同，甚至差异很大，并且这些小内存块的生命周期也不尽相同，所以，系统需要提供合适的算法来尽可能地满足这些动态的内存请求。在现代计算机系统中，堆（heap ）正是这样一个提供动态内存分配能力的内存抽象。操作系统使用堆来满足各种动态内存请求，应用程序通过堆获得内存。</p>
+<p>操作系统对于堆内存的管理，主要有两种方式：</p>
+<ol>
+<li><p>位图法</p>
+<p>使用这种方法，内存被分为很多以字节划分的单元，然后，用一个类似于数组的东西，用每一位<strong>0/1</strong>来标记这个内存块空闲或者已被使用。</p>
+<p>缺点：位图要占用内存。需要大内存，搜索连续的0较为费时。</p>
+</li>
+<li><p>空闲链表法</p>
+<p>在初始化时，整个空闲的内存被当做一个一个大的链表块，加入到空闲链表中，每当申请内存时，从空闲链表中找一块空的链表并且合适的可满足要求的内存块，取出所需要大小的内存交给申请者。然后，将已分配出去的内存加入到已分配链表中，当此块内存释放的时候，再将其加入到空闲链表中。</p>
+<p>所以，针对这种分配法，提出了很多算法</p>
+<ol>
+<li>最先匹配法（first-fit ），从空闲链表中找到第一个满足客户请求的空闲块。</li>
+<li>最佳匹配法（best-fit ），从空闲链表中找到最接近于客户请求大小的空闲块。</li>
+<li>最差匹配法（worst-fit），从空闲链表中找到最大的空闲块。</li>
+<li>下一个匹配法（next-fit ），从空闲链表的当前位置往后扫描，找到第一个满足客户请求的空闲块。  </li>
+</ol>
+<p>缺点：通过较多次的分配后，产生大量的内存碎片（因为，每次分配的内存大小不同）。内存碎片又分为外碎片(两块)</p>
+<p>而且，实现的时候，一般都是双链表，方便检查两块是否可以合并。</p>
+</li>
+<li><p>Slab算法</p>
+</li>
+<li><p>伙伴系统</p>
+</li>
+</ol>
+<p><strong>需要注意的是，1.上述都是针对于虚拟内存的，虚拟内存到物理内存的映射，由一个硬件称为MMU的单元管理</strong>。</p>
+<p><strong>2.操作系统并没有提供内存管理的这些方法，这些操作都是由库函数完成的。</strong></p>
+<h2 id="堆内存和栈内存的区别"><a href="#堆内存和栈内存的区别" class="headerlink" title="堆内存和栈内存的区别"></a>堆内存和栈内存的区别</h2><ol>
+<li><p>大小的区别</p>
+<p>栈内存，大小限制一般为1MB-2MB</p>
+<p>堆内存，普通程序没有限制(2GB-3GB)</p>
+</li>
+<li><p>增长方向的区别</p>
+<p>栈，由高地址向低地址增长</p>
+<p>堆，低地址向高地址增长</p>
+</li>
+<li><p>空间管理的区别</p>
+<p>栈，由编译器自动管理，弹栈和压栈，不会产生内存碎片。</p>
+<p>堆，手动申请和释放，会产生大量内存碎片。</p>
+</li>
+<li><p>效率的区别</p>
+<p>栈的效率高。现代机器有直接支持栈的指令，寄存器等</p>
+<p>堆，是在库函数层面实现的，效率低。而且，栈是进程初始化就分配好的，而堆是动态分配的。</p>
+</li>
+<li><p>分配方式的区别</p>
+<p>栈是编译时分配空间，而堆是动态分配（运行时分配空间）</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/操作系统内存管理/" rel="tag"># 操作系统内存管理</a>
+          
+            <a href="/tags/进程内存模型/" rel="tag"># 进程内存模型</a>
+          
+            <a href="/tags/内存分配/" rel="tag"># 内存分配</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/06/2019-05-06-C++菱形继承和虚继承2/" rel="next" title="C++菱形继承和虚继承2">
+                <i class="fa fa-chevron-left"></i> C++菱形继承和虚继承2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars3.githubusercontent.com/u/32959859?s=460&v=4"
+                alt="Youmo" />
+            
+              <p class="site-author-name" itemprop="name">Youmo</p>
+              <p class="site-description motion-element" itemprop="description">学习的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">81</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Youmo742" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1481414022@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-现代操作系统内存管理"><span class="nav-number">1.</span> <span class="nav-text">1.现代操作系统内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的地址空间"><span class="nav-number">1.1.</span> <span class="nav-text">进程的地址空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配"><span class="nav-number">1.2.</span> <span class="nav-text">内存分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆内存的管理"><span class="nav-number">1.3.</span> <span class="nav-text">堆内存的管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆内存和栈内存的区别"><span class="nav-number">2.</span> <span class="nav-text">堆内存和栈内存的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Youmo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
